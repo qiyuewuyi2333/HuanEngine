@@ -20,9 +20,10 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE "HUAN_PLATFORM_WINDOWS")
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../Huan)
 target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/out/build/x64-debug/lib)
 target_link_libraries(${PROJECT_NAME} PRIVATE Huan)
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE HUAN_PLATFORM_WINDOWS)

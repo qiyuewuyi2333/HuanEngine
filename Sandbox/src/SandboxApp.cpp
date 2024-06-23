@@ -1,5 +1,5 @@
-
 #include "interface/Huan.h"
+
 class SandboxApp : public Huan::Application
 {
 public:
@@ -7,17 +7,19 @@ public:
 	{
 	}
 
-	~SandboxApp()
+	~SandboxApp() override
 	{
 	}
 
 	void run() override
 	{
-		std::cout << "Hello, I'm Huan1\n";
+		HUAN_CLIENT_INFO("Hello, I'm Sandbox. ");
+		Huan::WindowResizeEvent event(1920, 1080);
+		HUAN_CLIENT_INFO(event.toString());
 	}
 };
-Huan::Application* Huan::CreateApplication()
+
+Huan::Application* Huan::createApplication()
 {
 	return new SandboxApp();
 }
-

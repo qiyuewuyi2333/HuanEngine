@@ -11,5 +11,5 @@ namespace Huan
 		virtual void run();
 	};
 
-	Application* CreateApplication();
+	Application* createApplication();
 }
