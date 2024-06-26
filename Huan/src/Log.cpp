@@ -10,6 +10,7 @@ namespace Huan
 	void Log::init()
 	{
 		spdlog::set_pattern("%^[%T] %n: %v%$");
+
 		sCoreLogger = spdlog::stdout_color_mt("Huan");
 		sCoreLogger->set_level(spdlog::level::trace);
 

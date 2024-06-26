@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Huan/Application.h"
-
-#include "Events/ApplicationEvent.h"
 #include "util/Log.h"
 
 namespace Huan
@@ -10,6 +8,14 @@ namespace Huan
 	Application::Application()
 	{
 		Huan::Log::init();
+		HUAN_CORE_CRITICAL("Initialized Log! ");
+		HUAN_CORE_CRITICAL("Initialized Log! ");
+		HUAN_CORE_CRITICAL("Initialized Log! ");
+		HUAN_CORE_CRITICAL("Initialized Log! ");
+		HUAN_CORE_CRITICAL("Initialized Log! ");
+		HUAN_CORE_CRITICAL("Initialized Log! ");
+		HUAN_CORE_CRITICAL("Initialized Log! ");
+		HUAN_CORE_CRITICAL("Initialized Log! ");
 		HUAN_CORE_CRITICAL("Initialized Log! ");
 		// WindowResizeEvent event(500,400);
 		// HUAN_CORE_INFO(event.toString());

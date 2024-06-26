@@ -1,6 +1,6 @@
 #pragma once
+#include "HuanPCH.h"
 #include "Huan/Core.h"
-#include "spdlog/spdlog.h"
 
 namespace Huan
 {

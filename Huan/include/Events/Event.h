@@ -1,10 +1,6 @@
 #pragma once
-
-#include <functional>
-
+#include "HuanPCH.h"
 #include "Huan/Core.h"
-#include <string>
-#include <sstream>
 
 #define BIT(X) (1 << X)
 
@@ -40,15 +36,10 @@ namespace Huan
 		EventCategoryMouseButton = BIT(4)
 	};
 
-	inline EventCategory operator|(EventCategory lhs, EventCategory rhs)
-	{
-		return static_cast<EventCategory>(static_cast<int>(lhs) | static_cast<int>(rhs));
-	}
+	EventCategory operator|(EventCategory lhs, EventCategory rhs);
 
-	inline EventCategory operator&(EventCategory lhs, EventCategory rhs)
-	{
-		return static_cast<EventCategory>(static_cast<int>(lhs) & static_cast<int>(rhs));
-	}
+
+	EventCategory operator&(EventCategory lhs, EventCategory rhs);
 
 #define EVENT_CLASS_TYPE(type) static EventType getStaticType() { return EventType::##type; }\
 	virtual EventType getEventType() const override { return getStaticType(); }\
@@ -67,54 +58,13 @@ namespace Huan
 		virtual EventType getEventType() const = 0;
 		virtual const char* getName() const = 0;
 		virtual int getCategoryFlags() const = 0;
-		virtual std::string toString() const { return getName(); }
+		virtual std::string toString() const;
 
-		bool isInCategory(EventCategory category) const
-		{
-			return static_cast<int>(category) & getCategoryFlags();
-		}
+		bool isInCategory(EventCategory category) const;
 
 	protected:
 		bool handled = false;
 	};
 
-	/**
-	 *  @brief similar to a kind of dynamic dispatch. this function dispatches the event to the function that matches the type of the event.
-	 *	@author Huan
-	 *
-	 */
-	class EventDispatcher
-	{
-	private:
-		template <typename T>
-		using EventFunc = std::function<bool(T&)>;
-
-	public:
-		EventDispatcher() = delete;
-		EventDispatcher(EventDispatcher&) = delete;
-
-		EventDispatcher(Event& event)
-			: event(event)
-		{
-		}
-
-		template <typename T>
-		bool dispatch(EventFunc<T> func)
-		{
-			if (event.get().getEventType() == T::getStaticType())
-			{
-				event.get().handled = func(event.get());
-				return true;
-			}
-			return false;
-		}
-
-	private:
-		std::reference_wrapper<Event> event;
-	};
-
-	inline std::ostream& operator<<(std::ostream& os, const Event& e)
-	{
-		return os << e.toString();
-	}
+	inline std::ostream& operator<<(std::ostream& os, const Event& e);
 }

@@ -10,6 +10,8 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*
 
 add_library (${PROJECT_NAME} SHARED ${SRC_FILES})
 
+target_precompile_headers(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include/HuanPCH.h)
+
 target_compile_definitions(${PROJECT_NAME} PRIVATE HUAN_PLATFORM_WINDOWS)
 target_compile_definitions(${PROJECT_NAME} PRIVATE HUAN_BUILD_DLL)
 
