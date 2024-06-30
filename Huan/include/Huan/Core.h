@@ -9,3 +9,11 @@
 #else
 	#error Huan only support Windows!
 #endif
+
+#ifdef HUAN_ENABLE_ASSERTS
+	#define HUAN_CLIENT_ASSERT(x, ...) { if(!(x)) { HUAN_CLIENT_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+	#define HUAN_CORE_ASSERT(x, ...) { if(!(x)) { HUAN_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#else
+	#define HUAN_CLIENT_ASSERT(x, ...)
+	#define HUAN_CORE_ASSERT(x, ...)
+#endif

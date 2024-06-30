@@ -23,6 +23,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 
 # Include sub-projects.
+add_subdirectory ("third_party/spdlog")
+add_subdirectory ("third_party/glfw")
 add_subdirectory ("Huan")
 add_subdirectory ("Sandbox")
-add_subdirectory ("third_party/spdlog")
+

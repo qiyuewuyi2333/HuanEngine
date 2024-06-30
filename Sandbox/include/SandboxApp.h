@@ -4,8 +4,6 @@ class SandboxApp : public Huan::Application
 {
 public:
 	SandboxApp();
+	~SandboxApp();
 
-	~SandboxApp() override;
-
-	void run() override;
 };
