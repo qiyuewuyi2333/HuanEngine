@@ -1,4 +1,5 @@
 #pragma once
+#include "ApplicationEvent.h"
 #include "Events/Event.h"
 
 namespace Huan
@@ -21,9 +22,24 @@ namespace Huan
 		EventDispatcher(Event& event);
 
 		template <typename T>
-		bool dispatch(EventFunc<T> func);
+		bool dispatch(EventFunc<T> func)
+		{
+			if (event.get().getEventType() == T::getStaticType())
+			{
+				T* specificEvent = dynamic_cast<T*>(&event.get());
+				if (specificEvent)
+				{
+					event.get().handled = func(*specificEvent);
+					return true;
+				}
+			}
+			return false;
 
+		}
+		
 	private:
 		std::reference_wrapper<Event> event;
 	};
+
+
 }

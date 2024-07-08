@@ -6,6 +6,7 @@
 
 namespace Huan
 {
+
 	enum class EventType : int
 	{
 		None = 0,
@@ -49,8 +50,6 @@ namespace Huan
 
 	class HUAN_API Event
 	{
-		friend class EventDispatcher;
-
 	public:
 		Event() = default;
 
@@ -62,9 +61,12 @@ namespace Huan
 
 		bool isInCategory(EventCategory category) const;
 
-	protected:
+	public:
 		bool handled = false;
 	};
 
-	inline std::ostream& operator<<(std::ostream& os, const Event& e);
+	inline std::ostream& operator<<(std::ostream& os, const Event& e)
+	{
+		return os << e.toString();
+	}
 }

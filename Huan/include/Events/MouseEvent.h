@@ -3,10 +3,10 @@
 
 namespace Huan
 {
-	class HUAN_API MouseEvent : public Event
+	class HUAN_API MouseMoveEvent : public Event
 	{
 	public:
-		MouseEvent(const float x, const float y);
+		MouseMoveEvent(const float x, const float y);
 
 		float getX() const;
 		float getY() const;

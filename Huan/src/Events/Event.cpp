@@ -19,9 +19,4 @@ namespace Huan
 	{
 		return static_cast<int>(category) & getCategoryFlags();
 	}
-
-	std::ostream& operator<<(std::ostream& os, const Event& e)
-	{
-		return os << e.toString();
-	}
 }

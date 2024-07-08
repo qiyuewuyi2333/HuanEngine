@@ -1,6 +1,8 @@
 #include "interface/Huan.h"
 #include "SandboxApp.h"
 
+#include "ExampleLayer.h"
+
 
 Huan::Application* Huan::createApplication()
 {
@@ -9,6 +11,7 @@ Huan::Application* Huan::createApplication()
 
 SandboxApp::SandboxApp()
 {
+	this->pushLayer(new ExampleLayer());
 }
 
 SandboxApp::~SandboxApp()

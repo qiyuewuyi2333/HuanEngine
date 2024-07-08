@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Huan/Core.h"
 #include "Events/ApplicationEvent.h"
 #include "Huan/Application.h"

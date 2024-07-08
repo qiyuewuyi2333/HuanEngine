@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Huan/Window.h"
-#include "GLFW/glfw3.h"
 
 namespace Huan
 {
@@ -32,6 +31,5 @@ namespace Huan
 			eventCallbackFunc eventCallback;
 		};
 		WindowData myData;
-	}
-	;
+	};
 }

@@ -2,17 +2,17 @@
 
 namespace Huan
 {
-	MouseEvent::MouseEvent(const float x, const float y): mouseX(x), mouseY(y)
+	MouseMoveEvent::MouseMoveEvent(const float x, const float y): mouseX(x), mouseY(y)
 	{
 	}
 
-	float MouseEvent::getX() const
+	float MouseMoveEvent::getX() const
 	{ return mouseX; }
 
-	float MouseEvent::getY() const
+	float MouseMoveEvent::getY() const
 	{ return mouseY; }
 
-	std::string MouseEvent::toString() const
+	std::string MouseMoveEvent::toString() const
 	{
 		std::stringstream ss;
 		ss << "MouseEvent: " << mouseX << ", " << mouseY;
