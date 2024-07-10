@@ -17,3 +17,5 @@
 	#define HUAN_CLIENT_ASSERT(x, ...)
 	#define HUAN_CORE_ASSERT(x, ...)
 #endif
+
+#define BIND_EVENT_FUNC(x) std::bind(&x, this, std::placeholders::_1)

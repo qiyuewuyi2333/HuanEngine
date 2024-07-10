@@ -1,21 +1,22 @@
 #include "HuanPCH.h"
-
+#include "Huan/Core.h"
 #include "Huan/Application.h"
 #include "Events/EventDispatcher.h"
 #include "util/Log.h"
 #include <GLFW/glfw3.h>
 
+
 namespace Huan
 {
-#define BIND_EVENT_FUNC(x) std::bind(&Application::x, this, std::placeholders::_1)
-
 	Application::Application(): myLayerStack()
 	{
 		Huan::Log::init();
 		HUAN_CORE_INFO("Initialized Log! ");
 
+		// create window
 		myWindow = std::unique_ptr<Window>(Window::create());
-		myWindow->setEventCallback(BIND_EVENT_FUNC(onEvent));
+		// use Application's onEvent as the window's callback func
+		myWindow->setEventCallback(BIND_EVENT_FUNC(Application::onEvent));
 	}
 
 	Application::~Application()
@@ -45,7 +46,7 @@ namespace Huan
 	void Application::onEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
-		dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FUNC(onWindowClose));
+		dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FUNC(Application::onWindowClose));
 
 		for(auto it = myLayerStack.end(); it != myLayerStack.begin();)
 		{
@@ -65,10 +66,15 @@ namespace Huan
 	void Application::pushLayer(Layer* layer)
 	{
 		myLayerStack.pushLayer(layer);
+		layer->onAttach();
 	}
 
 	void Application::pushOverlay(Layer* layer)
 	{
 		myLayerStack.pushOverlay(layer);
+		layer->onAttach();
 	}
+
+	Window& Application::getWindow()
+	{ return *myWindow; }
 }

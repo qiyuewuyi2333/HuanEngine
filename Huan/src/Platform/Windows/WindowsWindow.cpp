@@ -89,7 +89,13 @@ namespace Huan
 				}
 			}
 		});
+		glfwSetCharCallback(myWindow, [](GLFWwindow* window, unsigned int keycode)
+		{
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
+			KeyTypedEvent event(keycode);
+			data.eventCallback(event);
+		});
 		glfwSetMouseButtonCallback(myWindow, [](GLFWwindow* window, int button, int action, int mods)
 		{
 			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
@@ -123,7 +129,7 @@ namespace Huan
 		{
 			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
-			MouseMoveEvent event(static_cast<float>(xPos), static_cast<float>(yPos));
+			MouseMovedEvent event(static_cast<float>(xPos), static_cast<float>(yPos));
 			data.eventCallback(event);
 		});
 

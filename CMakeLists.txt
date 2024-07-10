@@ -26,6 +26,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 add_subdirectory ("third_party/spdlog")
 add_subdirectory ("third_party/glfw")
 add_subdirectory ("third_party/glad")
+add_subdirectory ("third_party/imgui")
 add_subdirectory ("Huan")
 add_subdirectory ("Sandbox")
 

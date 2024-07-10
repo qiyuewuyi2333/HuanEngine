@@ -2,6 +2,7 @@
 
 #include "spdlog/sinks/stdout_color_sinks-inl.h"
 
+
 namespace Huan
 {
 	std::shared_ptr<spdlog::logger> Log::sCoreLogger;

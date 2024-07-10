@@ -1,6 +1,6 @@
 #pragma once
-#include "Core.h"
-#include "Window.h"
+#include "Huan/Core.h"
+#include "Huan/Window.h"
 #include "Events/ApplicationEvent.h"
 #include "Layer/Layer.h"
 #include "Layer/LayerStack.h"
@@ -19,11 +19,14 @@ namespace Huan
 
 		void pushLayer(Layer* layer);
 		void pushOverlay(Layer* layer);
+
+		Window& getWindow();
+
 	private:
 		std::unique_ptr<Window> myWindow;
 		LayerStack myLayerStack;
 		bool isRunning = true;
 	};
+	inline Application* createApplication();
 
-	Application* createApplication();
 }
