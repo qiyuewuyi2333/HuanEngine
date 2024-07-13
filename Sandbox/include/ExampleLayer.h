@@ -1,6 +1,5 @@
 #pragma once
 #include "Layer/LayerStack.h"
-#include "util/Log.h"
 
 class ExampleLayer : public Huan::Layer
 {

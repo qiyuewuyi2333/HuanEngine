@@ -1,6 +1,5 @@
 #include "HuanPCH.h"
 #include "Platform/Windows/WindowsWindow.h"
-
 #include "Events/ApplicationEvent.h"
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
@@ -151,6 +150,11 @@ namespace Huan
 	{
 		glfwPollEvents();
 		glfwSwapBuffers(myWindow);
+	}
+
+	void* WindowsWindow::getNativeWindow() const
+	{
+		return myWindow;
 	}
 
 	void WindowsWindow::setVSync(const bool enabled)

@@ -1,7 +1,5 @@
 #pragma once
-
 #include "Huan/Window.h"
-
 namespace Huan
 {
 	class WindowsWindow : public Window
@@ -10,6 +8,7 @@ namespace Huan
 		WindowsWindow(const WindowProps& props);
 		virtual ~WindowsWindow();
 		void onUpdate() override;
+		virtual void* getNativeWindow() const override;
 		unsigned int getWidth() const override { return myData.width; }
 		unsigned int getHeight() const override { return myData.height; }
 

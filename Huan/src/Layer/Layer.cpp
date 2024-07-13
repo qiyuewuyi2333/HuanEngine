@@ -3,7 +3,7 @@
 namespace Huan
 {
 	Layer::Layer(const std::string& name)
-		: myDebugName(name)
+		: myDebugName(name), dispatcher(EventDispatcher(EventDispatcher::uselessEvent))
 	{
 	}
 	Layer::~Layer()

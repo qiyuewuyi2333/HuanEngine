@@ -1,12 +1,10 @@
 #include "HuanPCH.h"
-
 #include "Huan/Core.h"
 #include "ImGui/ImGuiLayer.h"
 #include "Platform/OpenGL/ImGuiOpenGLRenderer.h"
 #include "imgui.h"
 #include "Events/EventDispatcher.h"
 #include "Huan/Application.h"
-#include "util/ApplicationLocator.h"
 #include "util/Log.h"
 
 
@@ -27,8 +25,14 @@ namespace Huan
 		ImGui::StyleColorsDark();
 
 		ImGuiIO& io = ImGui::GetIO();
+
+		io.IniFilename = "imgui.ini";
+
 		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
 		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+		io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleFonts;
+		io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleViewports;
 
 		// TEMPORARY: should eventually use Hazel key codes
 		io.KeyMap[ImGuiKey_Tab] = GLFW_KEY_TAB;
@@ -63,7 +67,7 @@ namespace Huan
 	void ImGuiLayer::onUpdate()
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		Application* app = ApplicationLocator::getInstance();
+		Application* app = Application::getInstance();
 		io.DisplaySize = ImVec2(app->getWindow().getWidth(), app->getWindow().getHeight());
 
 		float time = (float)glfwGetTime();
@@ -87,7 +91,7 @@ namespace Huan
 	void ImGuiLayer::onEvent(Event& e)
 	{
 		HUAN_CLIENT_INFO(" ImGui: {0}", e.toString());
-		EventDispatcher dispatcher(e);
+		dispatcher.reset(e);
 		dispatcher.dispatch<MouseMovedEvent>(BIND_EVENT_FUNC(ImGuiLayer::handleMouseMovedEvent));
 		dispatcher.dispatch<MouseButtonPressedEvent>(BIND_EVENT_FUNC(ImGuiLayer::handleMouseButtonPressedEvent));
 		dispatcher.dispatch<MouseButtonReleasedEvent>(BIND_EVENT_FUNC(ImGuiLayer::handleMouseButtonReleasedEvent));

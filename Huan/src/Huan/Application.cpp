@@ -3,16 +3,18 @@
 #include "Huan/Application.h"
 #include "Events/EventDispatcher.h"
 #include "util/Log.h"
-#include <GLFW/glfw3.h>
 
 
 namespace Huan
 {
+	Application* Application::instance = nullptr;
+
 	Application::Application(): myLayerStack()
 	{
+		HUAN_CORE_ASSERT(!instance, "Application already exists!")
+		instance = this;
 		Huan::Log::init();
 		HUAN_CORE_INFO("Initialized Log! ");
-
 		// create window
 		myWindow = std::unique_ptr<Window>(Window::create());
 		// use Application's onEvent as the window's callback func
@@ -77,4 +79,9 @@ namespace Huan
 
 	Window& Application::getWindow()
 	{ return *myWindow; }
+
+	Application* Application::getInstance()
+	{
+		return instance;
+	}
 }

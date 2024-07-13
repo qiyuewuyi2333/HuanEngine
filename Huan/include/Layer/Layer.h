@@ -1,6 +1,7 @@
 #pragma	once
 #include "HuanPCH.h"
 #include "Events/Event.h"
+#include "Events/EventDispatcher.h"
 #include "Huan/Core.h"
 
 namespace Huan
@@ -19,6 +20,8 @@ namespace Huan
 		const std::string& getName() const;
 
 	protected:
+		EventDispatcher dispatcher;
 		std::string myDebugName;
+
 	};
 }

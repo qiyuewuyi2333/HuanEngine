@@ -6,9 +6,12 @@
 #include <sstream>
 #include <memory>
 #include "spdlog/spdlog.h"
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
+
 
 #ifdef HUAN_PLATFORM_WINDOWS
-	#include <Windows.h>	
+	#include <Windows.h>
+	#ifdef HUAN_OPENGL
+		#include "glad/glad.h"
+		#include "GLFW/glfw3.h"
+	#endif
 #endif

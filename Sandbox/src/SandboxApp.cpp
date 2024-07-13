@@ -5,7 +5,8 @@
 
 Huan::Application* Huan::createApplication()
 {
-	return new SandboxApp();
+	Application::instance = new SandboxApp();
+	return Application::instance;
 }
 
 SandboxApp::SandboxApp()

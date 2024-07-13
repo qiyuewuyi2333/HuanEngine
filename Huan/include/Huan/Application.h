@@ -21,6 +21,8 @@ namespace Huan
 		void pushOverlay(Layer* layer);
 
 		Window& getWindow();
+		static Application* getInstance();
+		static Application* instance;
 
 	private:
 		std::unique_ptr<Window> myWindow;

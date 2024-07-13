@@ -1,6 +1,5 @@
 #pragma once
-#include "ApplicationEvent.h"
-#include "Events/Event.h"
+#include "Events/UselessEvent.h"
 
 namespace Huan
 {
@@ -20,7 +19,7 @@ namespace Huan
 		EventDispatcher(EventDispatcher&) = delete;
 
 		EventDispatcher(Event& event);
-
+		void reset(Event& e);
 		template <typename T>
 		bool dispatch(EventFunc<T> func)
 		{
@@ -39,6 +38,9 @@ namespace Huan
 		
 	private:
 		std::reference_wrapper<Event> event;
+	public:
+		static UselessEvent uselessEvent;
+
 	};
 
 

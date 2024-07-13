@@ -22,6 +22,8 @@ namespace Huan
 	public:
 		using eventCallbackFunc = std::function<void(Event&)>;
 		virtual ~Window() {};
+
+		virtual void* getNativeWindow() const = 0;
 		virtual void onUpdate() = 0;
 		virtual unsigned int getWidth() const = 0;
 		virtual unsigned int getHeight() const = 0;
