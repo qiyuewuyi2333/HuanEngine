@@ -3,9 +3,10 @@
 
 namespace Huan
 {
-	Input* Input::instance = new WindowsInput();
+	Input* Input::instance = nullptr;
 	WindowsInput::WindowsInput()
 	{
+		instance = this;
 	}
 
 	bool WindowsInput::isKeyPressedImpl(int keycode) const

@@ -3,7 +3,6 @@
 #include "Huan/Core.h"
 #include "Layer/Layer.h"
 #include "Events/KeyEvent.h"
-#include "Events/MouseEvent.h"
 #include "Events/ApplicationEvent.h"
 
 namespace Huan
@@ -28,6 +27,7 @@ namespace Huan
 		bool handleKeyReleasedEvent(KeyReleasedEvent& e);
 		bool handleKeyTypedEvent(KeyTypedEvent& e);
 		bool handleWindowResizeEvent(WindowResizeEvent& e);
+		void printKeyName(KeyEvent& e);
 
 	private:
 		float myTime = 0.0f;

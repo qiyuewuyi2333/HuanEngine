@@ -27,6 +27,7 @@ add_subdirectory ("third_party/spdlog")
 add_subdirectory ("third_party/glfw")
 add_subdirectory ("third_party/glad")
 add_subdirectory ("third_party/imgui")
+add_subdirectory ("third_party/glm")
 add_subdirectory ("Huan")
 add_subdirectory ("Sandbox")
 

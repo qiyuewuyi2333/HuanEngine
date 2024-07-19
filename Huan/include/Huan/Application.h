@@ -7,6 +7,7 @@
 
 namespace Huan
 {
+	std::unordered_map<int, std::string> createKeycodeMap();
 	class HUAN_API Application
 	{
 	public:
