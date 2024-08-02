@@ -1,8 +1,9 @@
 #include "HuanPCH.h"
 #include "Huan/Core.h"
 #include "ImGui/ImGuiLayer.h"
-#include "Platform/OpenGL/ImGuiOpenGLRenderer.h"
 #include "imgui.h"
+#include "backends/imgui_impl_glfw.h"
+#include "backends/imgui_impl_opengl3.h"
 #include "Events/EventDispatcher.h"
 #include "Huan/Application.h"
 #include "Huan/KeyCodes.h"
@@ -22,67 +23,94 @@ namespace Huan
 
 	void ImGuiLayer::onAttach()
 	{
-		ImGui::CreateContext();
+		// Setup Dear ImGui context
+		IMGUI_CHECKVERSION();
+		Application::setImGuiContext(ImGui::CreateContext());
+		ImGuiIO& io = ImGui::GetIO(); (void)io;
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
+		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
+		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
+		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
+
+		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();
+		//ImGui::StyleColorsClassic();
 
-		ImGuiIO& io = ImGui::GetIO();
+		// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
+		ImGuiStyle& style = ImGui::GetStyle();
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			style.WindowRounding = 0.0f;
+			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+		}
 
-		io.IniFilename = "imgui.ini";
+		Application* app = Application::getInstance();
+		GLFWwindow* window = static_cast<GLFWwindow*>(app->getWindow().getNativeWindow());
 
-		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
-		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-		io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleFonts;
-		io.ConfigFlags |= ImGuiConfigFlags_DpiEnableScaleViewports;
-
-		// TEMPORARY: should eventually use Hazel key codes
-		io.KeyMap[ImGuiKey_Tab] = HUAN_KEY_TAB;
-		io.KeyMap[ImGuiKey_LeftArrow] = HUAN_KEY_LEFT;
-		io.KeyMap[ImGuiKey_RightArrow] = HUAN_KEY_RIGHT;
-		io.KeyMap[ImGuiKey_UpArrow] = HUAN_KEY_UP;
-		io.KeyMap[ImGuiKey_DownArrow] = HUAN_KEY_DOWN;
-		io.KeyMap[ImGuiKey_PageUp] = HUAN_KEY_PAGE_UP;
-		io.KeyMap[ImGuiKey_PageDown] = HUAN_KEY_PAGE_DOWN;
-		io.KeyMap[ImGuiKey_Home] = HUAN_KEY_HOME;
-		io.KeyMap[ImGuiKey_End] = HUAN_KEY_END;
-		io.KeyMap[ImGuiKey_Insert] = HUAN_KEY_INSERT;
-		io.KeyMap[ImGuiKey_Delete] = HUAN_KEY_DELETE;
-		io.KeyMap[ImGuiKey_Backspace] = HUAN_KEY_BACKSPACE;
-		io.KeyMap[ImGuiKey_Space] = HUAN_KEY_SPACE;
-		io.KeyMap[ImGuiKey_Enter] = HUAN_KEY_ENTER;
-		io.KeyMap[ImGuiKey_Escape] = HUAN_KEY_ESCAPE;
-		io.KeyMap[ImGuiKey_A] = HUAN_KEY_A;
-		io.KeyMap[ImGuiKey_C] = HUAN_KEY_C;
-		io.KeyMap[ImGuiKey_V] = HUAN_KEY_V;
-		io.KeyMap[ImGuiKey_X] = HUAN_KEY_X;
-		io.KeyMap[ImGuiKey_Y] = HUAN_KEY_Y;
-		io.KeyMap[ImGuiKey_Z] = HUAN_KEY_Z;
-
+		// Setup Platform/Renderer bindings
+		ImGui_ImplGlfw_InitForOpenGL(window, true);
 		ImGui_ImplOpenGL3_Init("#version 410");
 	}
 
 	void ImGuiLayer::onDetach()
 	{
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplGlfw_Shutdown();
+		ImGui::DestroyContext();
 	}
 
-	void ImGuiLayer::onUpdate()
+	// void ImGuiLayer::onUpdate()
+	// {
+	// 	ImGuiIO& io = ImGui::GetIO();
+	// 	Application* app = Application::getInstance();
+	// 	io.DisplaySize = ImVec2(app->getWindow().getWidth(), app->getWindow().getHeight());
+	//
+	// 	float time = (float)glfwGetTime();
+	// 	io.DeltaTime = myTime > 0.0f ? (time - myTime) : (1.0f / 60.0f);
+	// 	myTime = time;
+	//
+	// 	ImGui_ImplOpenGL3_NewFrame();
+	// 	ImGui::NewFrame();
+	//
+	// 	static bool show = true;
+	// 	ImGui::ShowDemoWindow(&show);
+	//
+	// 	ImGui::Render();
+	// 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	// }
+
+	void ImGuiLayer::onImGuiRender()
+	{
+		static bool show = true;
+		ImGui::ShowDemoWindow(&show);
+	}
+
+	void ImGuiLayer::begin()
+	{
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+	}
+
+	void ImGuiLayer::end()
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		Application* app = Application::getInstance();
-		io.DisplaySize = ImVec2(app->getWindow().getWidth(), app->getWindow().getHeight());
+		io.DisplaySize = ImVec2(static_cast<float>(app->getWindow().getWidth()), static_cast<float>(app->getWindow().getHeight()));
 
-		float time = (float)glfwGetTime();
-		io.DeltaTime = myTime > 0.0f ? (time - myTime) : (1.0f / 60.0f);
-		myTime = time;
-
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui::NewFrame();
-
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
-
+		// Rendering
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			GLFWwindow* backup_current_context = glfwGetCurrentContext();
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+			glfwMakeContextCurrent(backup_current_context);
+		}
 	}
 
 	/**

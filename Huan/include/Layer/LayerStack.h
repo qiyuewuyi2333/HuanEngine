@@ -21,6 +21,6 @@ namespace Huan
 
 	private:
 		std::vector<Layer*> myLayers;
-		std::vector<Layer*>::iterator myLayerInsert;
+		unsigned int posToInsert = 0;
 	};
 }

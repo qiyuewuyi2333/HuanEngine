@@ -1,7 +1,9 @@
 #pragma once
+#include "imgui_internal.h"
 #include "Huan/Core.h"
 #include "Huan/Window.h"
 #include "Events/ApplicationEvent.h"
+#include "ImGui/ImGuiLayer.h"
 #include "Layer/Layer.h"
 #include "Layer/LayerStack.h"
 
@@ -22,7 +24,12 @@ namespace Huan
 		void pushOverlay(Layer* layer);
 
 		Window& getWindow();
+		ImGuiLayer* imGuiLayer;
+		static ImGuiContext* imGuiContext;
+
 		static Application* getInstance();
+		static ImGuiContext* getImGuiContext();
+		static bool setImGuiContext(ImGuiContext* context);
 		static Application* instance;
 
 	private:

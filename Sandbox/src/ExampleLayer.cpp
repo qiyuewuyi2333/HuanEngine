@@ -1,4 +1,6 @@
 #include "ExampleLayer.h"
+
+#include "imgui.h"
 #include "Events/KeyEvent.h"
 #include "util/Input.h"
 #include "Huan/KeyCodes.h"
@@ -22,6 +24,12 @@ void ExampleLayer::onDetach()
 void ExampleLayer::onUpdate()
 {
 
+}
+void ExampleLayer::onImGuiRender()
+{
+	ImGui::Begin("Test");
+	ImGui::Text("Hello World");
+	ImGui::End();
 }
 
 void ExampleLayer::onEvent(Huan::Event& event)

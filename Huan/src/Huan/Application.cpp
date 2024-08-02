@@ -60,6 +60,7 @@ namespace Huan
 
 	}
 	Application* Application::instance = nullptr;
+	ImGuiContext* Application::imGuiContext = nullptr;
 
 	Application::Application(): myLayerStack()
 	{
@@ -73,6 +74,8 @@ namespace Huan
 		// use Application's onEvent as the window's callback func
 		myWindow->setEventCallback(BIND_EVENT_FUNC(Application::onEvent));
 
+		imGuiLayer = new ImGuiLayer();
+		pushOverlay(imGuiLayer);
 	}
 
 	Application::~Application()
@@ -94,6 +97,11 @@ namespace Huan
 
 				for (Layer* layer : myLayerStack)
 					layer->onUpdate();
+
+				imGuiLayer->begin();
+				for (Layer* layer : myLayerStack)
+					layer->onImGuiRender();
+				imGuiLayer->end();
 
 				myWindow->onUpdate();
 			}
@@ -139,5 +147,15 @@ namespace Huan
 	Application* Application::getInstance()
 	{
 		return instance;
+	}
+
+	ImGuiContext* Application::getImGuiContext()
+	{
+		return imGuiContext;
+	}
+	bool Application::setImGuiContext(ImGuiContext* context)
+	{
+		Application::imGuiContext = context;
+		return true;
 	}
 }

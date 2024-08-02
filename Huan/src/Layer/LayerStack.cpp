@@ -4,7 +4,6 @@ namespace Huan
 {
 	LayerStack::LayerStack()
 	{
-		myLayerInsert = myLayers.begin();
 	}
 
 	LayerStack::~LayerStack()
@@ -15,7 +14,8 @@ namespace Huan
 
 	void LayerStack::pushLayer(Layer* layer)
 	{
-		myLayerInsert = myLayers.emplace(myLayerInsert, layer);
+		myLayers.emplace(myLayers.begin() + posToInsert, layer);
+		++posToInsert;
 	}
 
 	void LayerStack::pushOverlay(Layer* overlay)
@@ -29,7 +29,7 @@ namespace Huan
 		if (it != myLayers.end())
 		{
 			myLayers.erase(it);
-			--myLayerInsert;
+			--posToInsert;
 		}
 	}
 

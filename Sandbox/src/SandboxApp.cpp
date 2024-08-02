@@ -12,7 +12,6 @@ Huan::Application* Huan::createApplication()
 SandboxApp::SandboxApp()
 {
 	this->pushLayer(new ExampleLayer());
-	this->pushOverlay(new Huan::ImGuiLayer());
 }
 
 SandboxApp::~SandboxApp()

@@ -15,8 +15,7 @@ namespace Huan
 
 		void onAttach() override;
 		void onDetach() override;
-		void onUpdate() override;
-
+		
 		void onEvent(Event& e) override;
 
 		bool handleMouseMovedEvent(MouseMovedEvent& e);
@@ -29,6 +28,9 @@ namespace Huan
 		bool handleWindowResizeEvent(WindowResizeEvent& e);
 		void printKeyName(KeyEvent& e);
 
+		virtual void onImGuiRender() override;
+		void begin();
+		void end();
 	private:
 		float myTime = 0.0f;
 	};
