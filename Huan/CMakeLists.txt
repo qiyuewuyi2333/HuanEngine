@@ -12,9 +12,13 @@ add_library (${PROJECT_NAME} SHARED ${SRC_FILES})
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include/HuanPCH.h)
 
+# WINDOWS
 target_compile_definitions(${PROJECT_NAME} PRIVATE HUAN_PLATFORM_WINDOWS)
+# DYNAMIC
 target_compile_definitions(${PROJECT_NAME} PRIVATE HUAN_BUILD_DLL)
+# DEBUG
 target_compile_definitions(${PROJECT_NAME} PRIVATE HUAN_DEBUG)
+# OPENGL
 target_compile_definitions(${PROJECT_NAME} PRIVATE HUAN_OPENGL)
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
