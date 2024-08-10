@@ -54,5 +54,14 @@ namespace Huan
     {
         return myCount;
     }
+    uint32_t OpenGLIndexBuffer::getMyRendererID() const
+    {
+        return myRendererID;
+    }
+    uint32_t OpenGLIndexBuffer::getType() const
+    {
+        return GL_UNSIGNED_INT;
+    }
+
 
 }

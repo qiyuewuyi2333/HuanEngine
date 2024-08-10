@@ -1,4 +1,6 @@
 #pragma once
+#include "Renderer/Buffer/VertexBuffer.h"
+#include "Renderer/RendererConfig.h"
 #include "Renderer/Shader.h"
 #include "imgui_internal.h"
 #include "Huan/Core.h"
@@ -7,6 +9,7 @@
 #include "ImGui/ImGuiLayer.h"
 #include "Layer/Layer.h"
 #include "Layer/LayerStack.h"
+
 
 namespace Huan
 {
@@ -41,9 +44,10 @@ class HUAN_API Application
      * @brief For first triangle test
      *
      */
-    unsigned int vertexArray;
-    unsigned int vertexBuffer;
-    unsigned int indexBuffer;
+    std::shared_ptr<CurrentVertexArray> vertexArray;
+    std::shared_ptr<CurrentVertexBuffer> vertexBuffer;
+    std::shared_ptr<CurrentIndexBuffer> indexBuffer;
+    
     std::unique_ptr<Shader> shader;
 };
 inline Application* createApplication();

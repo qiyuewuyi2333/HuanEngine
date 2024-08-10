@@ -3,6 +3,8 @@
 #include "Huan/Core.h"
 #include "Huan/KeyCodes.h"
 #include "HuanPCH.h"
+#include "Renderer/Buffer/BufferLayout.h"
+#include "Renderer/Buffer/IndexBuffer.h"
 #include "Renderer/Shader.h"
 #include "util/Log.h"
 #include "Renderer/RendererConfig.h"
@@ -79,21 +81,23 @@ Application::Application() : myLayerStack()
     shader = std::make_unique<Shader>("../../../../Resource/Shaders/test1/test1.vert",
                                       "../../../../Resource/Shaders/test1/test1.frag");
 
-    float triangleVertices[] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
+    float triangleVertices[] = {-0.5f, -0.5f, 0.0f, 0.8f, 0.0f, 0.0f, 1.0f, 0.5f, -0.5f, 0.0f, 0.0f,
+                                0.8f,  0.0f,  1.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.8f,  1.0f};
     unsigned int indices[] = {0, 1, 2};
-    glGenVertexArrays(1, &vertexArray);
-    glBindVertexArray(vertexArray);
 
-    std::unique_ptr<CurrentVertexBuffer> vertexBuffer =
-        std::make_unique<CurrentVertexBuffer>(triangleVertices, sizeof(triangleVertices));
-    std::unique_ptr<CurrentIndexBuffer> indexBuffer =
-        std::make_unique<CurrentIndexBuffer>(indices, sizeof(indices));
+    vertexArray = std::make_shared<CurrentVertexArray>();
+    vertexArray->bind();
+    vertexBuffer = std::make_shared<CurrentVertexBuffer>(triangleVertices, sizeof(triangleVertices));
     vertexBuffer->bind();
+    indexBuffer = std::make_shared<CurrentIndexBuffer>(indices, sizeof(indices) / sizeof(unsigned int));
     indexBuffer->bind();
+    BufferLayout layout = {{ShaderDataType::Float3, "a_Position"}, {ShaderDataType::Float4, "a_Color"}};
+    vertexBuffer->setLayout(layout);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    glBindVertexArray(0);
+    vertexArray->addVertexBuffer(vertexBuffer);
+    vertexArray->setIndexBuffer(indexBuffer);
+
+    vertexArray->unbind();
 }
 
 Application::~Application()
@@ -113,11 +117,11 @@ void Application::run()
             glClearColor(0.1, 0.1, 0.1, 1);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            glBindVertexArray(vertexArray);
+            vertexArray->bind();
             shader->use();
             glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
-            glBindVertexArray(0);
-            
+            vertexArray->unbind();
+
             for (Layer* layer : myLayerStack)
                 layer->onUpdate();
 

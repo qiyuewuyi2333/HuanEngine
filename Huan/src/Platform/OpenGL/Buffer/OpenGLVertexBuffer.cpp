@@ -1,7 +1,5 @@
 #include "Platform/OpenGL/Buffer/OpenGLVertexBuffer.h"
-#include "glad/glad.h"
 #include "util/Log.h"
-#include <cstdint>
 
 namespace Huan
 {
@@ -48,6 +46,15 @@ namespace Huan
         HUAN_CORE_TRACE("OpenGL VertexBuffer set data, ID: {0}", myRendererID);
     }
     /**
+     * @brief Set the layout of OpenGL Array Buffer 
+     * 
+     * @param layout 
+     */
+    void OpenGLVertexBuffer::setLayout(const BufferLayout& layout)
+    {
+        myLayout = layout;
+    }
+    /**
      * @brief Unbind the OpenGL Array Buffer with cur ID
      * 
      */
@@ -56,13 +63,16 @@ namespace Huan
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         HUAN_CORE_TRACE("OpenGL VertexBuffer unbinded, ID: {0}",myRendererID);
     }
-    /**
-     * @brief Get the count of OpenGL Array Buffer with cur ID
-     * 
-     * @return uint32_t 
-     */
-    uint32_t OpenGLVertexBuffer::getCount() const 
+    constexpr uint32_t OpenGLVertexBuffer::getCount() const 
     {
         return myCount;
+    }
+    constexpr const BufferLayout& OpenGLVertexBuffer::getLayout() const
+    {
+        return myLayout;
+    }
+    constexpr uint32_t OpenGLVertexBuffer::getMyRendererID() const
+    {
+        return myRendererID;
     }
 }

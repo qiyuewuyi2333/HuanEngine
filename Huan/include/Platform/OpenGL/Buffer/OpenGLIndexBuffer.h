@@ -13,6 +13,8 @@ class OpenGLIndexBuffer : public IndexBuffer
     void unbind() const override;
 
     uint32_t getCount() const override;
+    uint32_t getMyRendererID() const override;
+    uint32_t getType() const override;
 
   private:
     uint32_t myRendererID;
