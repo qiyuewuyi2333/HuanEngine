@@ -1,3 +1,5 @@
+#pragma once
+
 #include "HuanPCH.h"
 #include "Renderer/GraphicsContext.h"
 

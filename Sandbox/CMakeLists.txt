@@ -26,7 +26,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/i
 
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../Huan)
-target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/out/build/x64-debug/lib)
 target_link_libraries(${PROJECT_NAME} PRIVATE Huan)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE HUAN_PLATFORM_WINDOWS)

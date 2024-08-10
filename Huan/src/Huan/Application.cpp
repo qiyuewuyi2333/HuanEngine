@@ -4,9 +4,8 @@
 #include "Huan/KeyCodes.h"
 #include "HuanPCH.h"
 #include "Renderer/Shader.h"
-#include "glad/glad.h"
 #include "util/Log.h"
-#include <memory>
+#include "Renderer/RendererConfig.h"
 
 namespace Huan
 {
@@ -67,7 +66,7 @@ Application::Application() : myLayerStack()
 {
     HUAN_CORE_ASSERT(!instance, "Application already exists!")
     instance = this;
-    Huan::Log::init();
+    Log::init();
     HUAN_CORE_INFO("Initialized Log! ");
     // create window
     myWindow = std::unique_ptr<Window>(Window::create());
@@ -83,13 +82,15 @@ Application::Application() : myLayerStack()
     float triangleVertices[] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
     unsigned int indices[] = {0, 1, 2};
     glGenVertexArrays(1, &vertexArray);
-    glGenBuffers(1, &vertexBuffer);
-    glGenBuffers(1, &indexBuffer);
     glBindVertexArray(vertexArray);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    std::unique_ptr<CurrentVertexBuffer> vertexBuffer =
+        std::make_unique<CurrentVertexBuffer>(triangleVertices, sizeof(triangleVertices));
+    std::unique_ptr<CurrentIndexBuffer> indexBuffer =
+        std::make_unique<CurrentIndexBuffer>(indices, sizeof(indices));
+    vertexBuffer->bind();
+    indexBuffer->bind();
+
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     glBindVertexArray(0);
@@ -116,6 +117,7 @@ void Application::run()
             shader->use();
             glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
             glBindVertexArray(0);
+            
             for (Layer* layer : myLayerStack)
                 layer->onUpdate();
 

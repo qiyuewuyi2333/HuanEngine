@@ -12,14 +12,27 @@ add_library (${PROJECT_NAME} SHARED ${SRC_FILES})
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include/HuanPCH.h)
 
+# Rendering API option
+option(HUAN_USING_OPENGL "Build with OpenGL" ON)
+option(HUAN_USING_VULKAN "Build with Vulkan" OFF)
+option(HUAN_ENABLE_LOG   "Enable log system" ON)
+
 # WINDOWS
 target_compile_definitions(${PROJECT_NAME} PRIVATE HUAN_PLATFORM_WINDOWS)
 # DYNAMIC
 target_compile_definitions(${PROJECT_NAME} PRIVATE HUAN_BUILD_DLL)
 # DEBUG
 target_compile_definitions(${PROJECT_NAME} PRIVATE HUAN_DEBUG)
+if(HUAN_ENABLE_LOG)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC HUAN_ENABLE_LOG)
+endif()
 # OPENGL
-target_compile_definitions(${PROJECT_NAME} PRIVATE HUAN_OPENGL)
+if(HUAN_USING_OPENGL)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC HUAN_USING_OPENGL)    
+elseif(HUAN_USING_VULKAN)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC HUAN_USING_VULKAN)
+endif()
+
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/third_party/imgui")
@@ -31,7 +44,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/third_par
 
 target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog)
 target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
-target_link_libraries(${PROJECT_NAME} PRIVATE opengl32)
+if(HUAN_USING_OPENGL)
+    target_link_libraries(${PROJECT_NAME} PRIVATE opengl32)
+endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE glad)
 target_link_libraries(${PROJECT_NAME} PUBLIC imgui)
 target_link_libraries(${PROJECT_NAME} PRIVATE glm)

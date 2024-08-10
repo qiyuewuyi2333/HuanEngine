@@ -1,7 +1,7 @@
 #pragma once
 
 		// from glfw3.h
-		#ifdef HUAN_OPENGL
+		#ifdef HUAN_USING_OPENGL
 			#define HUAN_KEY_SPACE              32
 			#define HUAN_KEY_APOSTROPHE         39  /* ' */
 			#define HUAN_KEY_COMMA              44  /* , */

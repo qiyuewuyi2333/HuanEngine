@@ -12,8 +12,10 @@
 
 #ifdef HUAN_PLATFORM_WINDOWS
 #include <Windows.h>
-#ifdef HUAN_OPENGL
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
+    
 #endif
+
+#ifdef HUAN_USING_OPENGL
+    #include "glad/glad.h"
+    #include "GLFW/glfw3.h"
 #endif
