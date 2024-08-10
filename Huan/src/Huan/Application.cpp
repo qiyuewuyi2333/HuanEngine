@@ -5,9 +5,12 @@
 #include "HuanPCH.h"
 #include "Renderer/Buffer/BufferLayout.h"
 #include "Renderer/Buffer/IndexBuffer.h"
+#include "Renderer/Buffer/VertexBuffer.h"
+#include "Renderer/Scene.h"
 #include "Renderer/Shader.h"
 #include "util/Log.h"
 #include "Renderer/RendererConfig.h"
+#include <memory>
 
 namespace Huan
 {
@@ -64,7 +67,7 @@ std::unordered_map<int, std::string> createKeycodeMap()
 Application* Application::instance = nullptr;
 ImGuiContext* Application::imGuiContext = nullptr;
 
-Application::Application() : myLayerStack()
+Application::Application() : myLayerStack(), myRenderer(Renderer::getInstance())
 {
     HUAN_CORE_ASSERT(!instance, "Application already exists!")
     instance = this;
@@ -85,19 +88,18 @@ Application::Application() : myLayerStack()
                                 0.8f,  0.0f,  1.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.8f,  1.0f};
     unsigned int indices[] = {0, 1, 2};
 
-    vertexArray = std::make_shared<CurrentVertexArray>();
+    std::shared_ptr<VertexArray> vertexArray = std::make_shared<CurrentVertexArray>();
     vertexArray->bind();
-    vertexBuffer = std::make_shared<CurrentVertexBuffer>(triangleVertices, sizeof(triangleVertices));
+    std::shared_ptr<VertexBuffer> vertexBuffer = std::make_shared<CurrentVertexBuffer>(triangleVertices, sizeof(triangleVertices));
     vertexBuffer->bind();
-    indexBuffer = std::make_shared<CurrentIndexBuffer>(indices, sizeof(indices) / sizeof(unsigned int));
+    std::shared_ptr<IndexBuffer> indexBuffer = std::make_shared<CurrentIndexBuffer>(indices, sizeof(indices) / sizeof(unsigned int));
     indexBuffer->bind();
     BufferLayout layout = {{ShaderDataType::Float3, "a_Position"}, {ShaderDataType::Float4, "a_Color"}};
     vertexBuffer->setLayout(layout);
-
     vertexArray->addVertexBuffer(vertexBuffer);
     vertexArray->setIndexBuffer(indexBuffer);
-
     vertexArray->unbind();
+    myScene = std::make_unique<Scene>(vertexArray);
 }
 
 Application::~Application()
@@ -114,13 +116,10 @@ void Application::run()
 
         while (isRunning)
         {
-            glClearColor(0.1, 0.1, 0.1, 1);
-            glClear(GL_COLOR_BUFFER_BIT);
+            myRenderer.getCurrentRendererAPI()->setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
+            myRenderer.getCurrentRendererAPI()->clear();
 
-            vertexArray->bind();
-            shader->use();
-            glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
-            vertexArray->unbind();
+            myRenderer.render(*shader, *myScene);
 
             for (Layer* layer : myLayerStack)
                 layer->onUpdate();
