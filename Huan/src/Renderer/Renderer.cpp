@@ -1,23 +1,24 @@
 #include "Renderer/Renderer.h"
+#include "Renderer/RenderCommand.h"
 #include "Renderer/RendererConfig.h"
 
 namespace Huan
 {
 Renderer::Renderer()
 {
-    myRendererAPI = std::make_unique<CurrentRendererAPI>();
+    myRenderCommand = std::make_unique<RenderCommand>();
 }
 
 void Renderer::render(Shader& shader, Scene& scene)
 {
     shader.use();
     scene.getVertexArray().bind();
-    myRendererAPI->drawIndexed(scene.getVertexArray());
+    myRenderCommand->drawIndexed(scene.getVertexArray());
     scene.getVertexArray().unbind();
 }
-const std::unique_ptr<RendererAPI>& Renderer::getCurrentRendererAPI() const
+const std::unique_ptr<RenderCommand>& Renderer::getMyRenderCommand() const
 {
-    return myRendererAPI;
+    return myRenderCommand;
 }
 
 } // namespace Huan

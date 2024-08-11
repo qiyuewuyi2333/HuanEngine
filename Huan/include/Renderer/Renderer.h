@@ -4,6 +4,7 @@
 #include "RenderCommand.h"
 #include "Renderer/Shader.h"
 #include "Renderer/Scene.h"
+#include <memory>
 namespace Huan
 {
 enum RendererAPIName
@@ -22,9 +23,9 @@ class Renderer
     }
     Renderer();
     void render(Shader& shader, Scene& scene);
-    const std::unique_ptr<RendererAPI>& getCurrentRendererAPI() const;
+    const std::unique_ptr<RenderCommand>& getMyRenderCommand() const;
 
   private:
-    std::unique_ptr<RendererAPI> myRendererAPI;
+    std::unique_ptr<RenderCommand> myRenderCommand;
 };
 } // namespace Huan

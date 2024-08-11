@@ -8,12 +8,32 @@
 #include "Renderer/Buffer/VertexBuffer.h"
 #include "Renderer/Scene.h"
 #include "Renderer/Shader.h"
+#include "Renderer/VertexArray.h"
 #include "util/Log.h"
 #include "Renderer/RendererConfig.h"
-#include <memory>
+#include "util/stb_image/StbImage.h"
+#include <winbase.h>
 
 namespace Huan
 {
+// Test function for capture the first image from rendering
+void captureAndSaveOpenGLImage(int width, int height)
+{
+    // 分配内存来存储屏幕像素
+    std::vector<unsigned char> pixels(width * height * 3);
+    glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
+
+    // 图像垂直翻转（因为OpenGL和PNG图像的原点不同）
+    std::vector<unsigned char> flipped_pixels(width * height * 3);
+    for (int i = 0; i < height; ++i)
+    {
+        memcpy(flipped_pixels.data() + (height - i - 1) * width * 3, pixels.data() + i * width * 3, width * 3);
+    }
+
+    // 将像素数据写入PNG文件
+    stbi_write_png("output.png", width, height, 3, flipped_pixels.data(), width * 3);
+}
+
 std::unordered_map<int, std::string> createKeycodeMap()
 {
     std::unordered_map<int, std::string> keycodeMap;
@@ -86,20 +106,41 @@ Application::Application() : myLayerStack(), myRenderer(Renderer::getInstance())
 
     float triangleVertices[] = {-0.5f, -0.5f, 0.0f, 0.8f, 0.0f, 0.0f, 1.0f, 0.5f, -0.5f, 0.0f, 0.0f,
                                 0.8f,  0.0f,  1.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.8f,  1.0f};
+    float quadVertices[] = {-0.5f, -0.5f, 0.0f, 0.8f, 0.0f, 0.0f, 1.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.8f, 0.0f, 1.0f,
+                            -0.0f, 0.5f,  0.0f, 0.0f, 0.0f, 0.8f, 1.0f, 0.5f, 0.5f,  0.0f, 1.0f, 1.0f, 1.0f, 1.0f};
     unsigned int indices[] = {0, 1, 2};
-
-    std::shared_ptr<VertexArray> vertexArray = std::make_shared<CurrentVertexArray>();
-    vertexArray->bind();
-    std::shared_ptr<VertexBuffer> vertexBuffer = std::make_shared<CurrentVertexBuffer>(triangleVertices, sizeof(triangleVertices));
-    vertexBuffer->bind();
-    std::shared_ptr<IndexBuffer> indexBuffer = std::make_shared<CurrentIndexBuffer>(indices, sizeof(indices) / sizeof(unsigned int));
-    indexBuffer->bind();
+    unsigned int quadIndices[] = {0, 1, 2, 2, 3, 0};
     BufferLayout layout = {{ShaderDataType::Float3, "a_Position"}, {ShaderDataType::Float4, "a_Color"}};
-    vertexBuffer->setLayout(layout);
-    vertexArray->addVertexBuffer(vertexBuffer);
-    vertexArray->setIndexBuffer(indexBuffer);
-    vertexArray->unbind();
-    myScene = std::make_unique<Scene>(vertexArray);
+
+    // triangle
+    std::shared_ptr<VertexArray> triangleArray = std::make_shared<CurrentVertexArray>();
+    triangleArray->bind();
+    std::shared_ptr<VertexBuffer> triangleVertexBuffer =
+        std::make_shared<CurrentVertexBuffer>(triangleVertices, sizeof(triangleVertices));
+    triangleVertexBuffer->bind();
+    std::shared_ptr<IndexBuffer> triangleIndexBuffer =
+        std::make_shared<CurrentIndexBuffer>(indices, sizeof(indices) / sizeof(unsigned int));
+    triangleIndexBuffer->bind();
+    triangleVertexBuffer->setLayout(layout);
+    triangleArray->addVertexBuffer(triangleVertexBuffer);
+    triangleArray->setIndexBuffer(triangleIndexBuffer);
+    triangleArray->unbind();
+    myScene1 = std::make_unique<Scene>(triangleArray);
+
+    // quad
+    std::shared_ptr<VertexArray> quadArray = std::make_shared<CurrentVertexArray>();
+    quadArray->bind();
+    std::shared_ptr<VertexBuffer> quadVertexBuffer =
+        std::make_shared<CurrentVertexBuffer>(quadVertices, sizeof(quadVertices));
+    quadVertexBuffer->bind();
+    quadVertexBuffer->setLayout(layout);
+    quadArray->addVertexBuffer(quadVertexBuffer);
+    std::shared_ptr<IndexBuffer> quadIndexBuffer =
+        std::make_shared<CurrentIndexBuffer>(quadIndices, sizeof(quadIndices) / sizeof(unsigned int));
+    quadIndexBuffer->bind();
+    quadArray->setIndexBuffer(quadIndexBuffer);
+    quadArray->unbind();
+    myScene2 = std::make_unique<Scene>(quadArray);
 }
 
 Application::~Application()
@@ -109,18 +150,24 @@ Application::~Application()
 void Application::run()
 {
     const WindowResizeEvent e(1280, 720);
-
+    bool first = true;
     if (e.isInCategory(EventCategory::EventCategoryApplication))
     {
         HUAN_CLIENT_TRACE(e.toString());
 
         while (isRunning)
         {
-            myRenderer.getCurrentRendererAPI()->setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
-            myRenderer.getCurrentRendererAPI()->clear();
+            myRenderer.getMyRenderCommand()->setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
+            myRenderer.getMyRenderCommand()->clear();
 
-            myRenderer.render(*shader, *myScene);
+            myRenderer.render(*shader, *myScene1);
+            myRenderer.render(*shader, *myScene2);
 
+            if(first)
+            {
+                captureAndSaveOpenGLImage(myWindow->getWidth(),myWindow->getHeight());
+                first = false;
+            }
             for (Layer* layer : myLayerStack)
                 layer->onUpdate();
 
@@ -131,7 +178,7 @@ void Application::run()
 
             myWindow->onUpdate();
         }
-        HUAN_CORE_TRACE("Application closed!");
+        HUAN_CORE_TRACE("Application Run over!");
     }
 }
 

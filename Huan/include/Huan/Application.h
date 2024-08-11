@@ -46,7 +46,8 @@ class HUAN_API Application
      * @brief For first triangle test
      *
      */
-    std::unique_ptr<Scene> myScene;
+    std::unique_ptr<Scene> myScene1;
+    std::unique_ptr<Scene> myScene2;
     std::unique_ptr<Shader> shader;
     Renderer& myRenderer;
 };
