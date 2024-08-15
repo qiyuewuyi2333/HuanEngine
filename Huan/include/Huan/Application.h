@@ -48,6 +48,7 @@ class HUAN_API Application
      */
     std::unique_ptr<Scene> myScene1;
     std::unique_ptr<Scene> myScene2;
+    std::unique_ptr<Scene> myScene3;
     std::unique_ptr<Shader> shader;
     Renderer& myRenderer;
 };

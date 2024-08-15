@@ -12,9 +12,13 @@ Renderer::Renderer()
 void Renderer::render(Shader& shader, Scene& scene)
 {
     shader.use();
-    scene.getVertexArray().bind();
-    myRenderCommand->drawIndexed(scene.getVertexArray());
-    scene.getVertexArray().unbind();
+    shader.setMat4("u_ViewProjection", scene.getCamera()->getViewProjectionMatrix());
+    for(auto& va :scene.getVertexArrays())
+    {
+        va->bind();
+        myRenderCommand->drawIndexed(*va);
+        va->unbind();
+    }
 }
 const std::unique_ptr<RenderCommand>& Renderer::getMyRenderCommand() const
 {

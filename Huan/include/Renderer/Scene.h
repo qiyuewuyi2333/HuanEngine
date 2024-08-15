@@ -1,7 +1,9 @@
 #pragma once
 
+#include "Renderer/Utils/Camera.h"
 #include "VertexArray.h"
 #include <memory>
+#include <vector>
 namespace Huan
 {
 /**
@@ -12,12 +14,14 @@ class Scene
 {
   public:
     Scene() = delete;
-    Scene(std::shared_ptr<VertexArray> vertexArray);
+    Scene(std::shared_ptr<VertexArray> vertexArray, std::shared_ptr<Camera> camera);
     virtual ~Scene() = default;
-    VertexArray& getVertexArray() const;
+    std::vector<std::shared_ptr<VertexArray>>& getVertexArrays();
+    std::shared_ptr<Camera> getCamera() const;
 
   private:
-    std::shared_ptr<VertexArray> myVertexArray;
+    std::vector<std::shared_ptr<VertexArray>> myVertexArrays;
+    std::shared_ptr<Camera> myCamera;
 };
 
 } // namespace Huan

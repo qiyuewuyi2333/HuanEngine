@@ -8,10 +8,13 @@
 #include "Renderer/Buffer/VertexBuffer.h"
 #include "Renderer/Scene.h"
 #include "Renderer/Shader.h"
+#include "Renderer/Utils/Camera.h"
+#include "Renderer/Utils/OrthogonalCamera.h"
 #include "Renderer/VertexArray.h"
 #include "util/Log.h"
 #include "Renderer/RendererConfig.h"
 #include "util/stb_image/StbImage.h"
+#include <memory>
 #include <winbase.h>
 
 namespace Huan
@@ -106,11 +109,22 @@ Application::Application() : myLayerStack(), myRenderer(Renderer::getInstance())
 
     float triangleVertices[] = {-0.5f, -0.5f, 0.0f, 0.8f, 0.0f, 0.0f, 1.0f, 0.5f, -0.5f, 0.0f, 0.0f,
                                 0.8f,  0.0f,  1.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.8f,  1.0f};
-    float quadVertices[] = {-0.5f, -0.5f, 0.0f, 0.8f, 0.0f, 0.0f, 1.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.8f, 0.0f, 1.0f,
-                            -0.0f, 0.5f,  0.0f, 0.0f, 0.0f, 0.8f, 1.0f, 0.5f, 0.5f,  0.0f, 1.0f, 1.0f, 1.0f, 1.0f};
+    float quadVertices1[] = {
+        -0.01f, 1.0f, 0.0f,         0.0f, 0.8f, 0.0f, 1.0f, 
+        0.01f, 1.0f, 0.0f,          0.0f, 0.8f, 0.0f, 1.0f,
+        -0.01f, -1.0f,  0.0f,       0.0f, 0.8f, 0.0f, 1.0f, 
+        0.01f, -1.0f,  0.0f,        0.0f, 0.8f, 0.0f, 1.0f};
+
+    float quadVertices2[] = {
+        1.0f, -0.01f, 0.0f,          0.8f,0.0f, 0.0f, 1.0f, 
+         1.0f,0.01f, 0.0f,           0.8f,0.0f,  0.0f, 1.0f,
+        -1.0f,-0.01f,   0.0f,        0.8f,0.0f, 0.0f, 1.0f, 
+        -1.0f,0.01f,   0.0f,         0.8f, 0.0f, 0.0f, 1.0f};
     unsigned int indices[] = {0, 1, 2};
-    unsigned int quadIndices[] = {0, 1, 2, 2, 3, 0};
+    unsigned int quadIndices[] = {0, 1, 3, 2, 3, 0};
     BufferLayout layout = {{ShaderDataType::Float3, "a_Position"}, {ShaderDataType::Float4, "a_Color"}};
+
+    std::shared_ptr<Camera> myCamera = std::make_shared<OrthogonalCamera>(0.0f, 1.0f, 0.0f, 1.0f);
 
     // triangle
     std::shared_ptr<VertexArray> triangleArray = std::make_shared<CurrentVertexArray>();
@@ -118,29 +132,42 @@ Application::Application() : myLayerStack(), myRenderer(Renderer::getInstance())
     std::shared_ptr<VertexBuffer> triangleVertexBuffer =
         std::make_shared<CurrentVertexBuffer>(triangleVertices, sizeof(triangleVertices));
     triangleVertexBuffer->bind();
-    std::shared_ptr<IndexBuffer> triangleIndexBuffer =
+    std::shared_ptr<IndexBuffer> triangleIndexBuffer1 =
         std::make_shared<CurrentIndexBuffer>(indices, sizeof(indices) / sizeof(unsigned int));
-    triangleIndexBuffer->bind();
+    triangleIndexBuffer1->bind();
     triangleVertexBuffer->setLayout(layout);
     triangleArray->addVertexBuffer(triangleVertexBuffer);
-    triangleArray->setIndexBuffer(triangleIndexBuffer);
+    triangleArray->setIndexBuffer(triangleIndexBuffer1);
     triangleArray->unbind();
-    myScene1 = std::make_unique<Scene>(triangleArray);
+    myScene1 = std::make_unique<Scene>(triangleArray, myCamera);
 
-    // quad
-    std::shared_ptr<VertexArray> quadArray = std::make_shared<CurrentVertexArray>();
-    quadArray->bind();
-    std::shared_ptr<VertexBuffer> quadVertexBuffer =
-        std::make_shared<CurrentVertexBuffer>(quadVertices, sizeof(quadVertices));
-    quadVertexBuffer->bind();
-    quadVertexBuffer->setLayout(layout);
-    quadArray->addVertexBuffer(quadVertexBuffer);
+    // quad1
+    std::shared_ptr<VertexArray> quadArray1 = std::make_shared<CurrentVertexArray>();
+    quadArray1->bind();
+    std::shared_ptr<VertexBuffer> quadVertexBuffer1 =
+        std::make_shared<CurrentVertexBuffer>(quadVertices1, sizeof(quadVertices1));
+    quadVertexBuffer1->bind();
+    quadVertexBuffer1->setLayout(layout);
+    quadArray1->addVertexBuffer(quadVertexBuffer1);
     std::shared_ptr<IndexBuffer> quadIndexBuffer =
         std::make_shared<CurrentIndexBuffer>(quadIndices, sizeof(quadIndices) / sizeof(unsigned int));
     quadIndexBuffer->bind();
-    quadArray->setIndexBuffer(quadIndexBuffer);
-    quadArray->unbind();
-    myScene2 = std::make_unique<Scene>(quadArray);
+    quadArray1->setIndexBuffer(quadIndexBuffer);
+    quadArray1->unbind();
+    myScene2 = std::make_unique<Scene>(quadArray1, myCamera);
+
+    // quad2
+    std::shared_ptr<VertexArray> quadArray2 = std::make_shared<CurrentVertexArray>();
+    quadArray2->bind();
+    std::shared_ptr<VertexBuffer> quadVertexBuffer2 =
+        std::make_shared<CurrentVertexBuffer>(quadVertices2, sizeof(quadVertices2));
+    quadVertexBuffer2->bind();
+    quadVertexBuffer2->setLayout(layout);
+    quadArray2->addVertexBuffer(quadVertexBuffer2);
+    quadIndexBuffer->bind();
+    quadArray2->setIndexBuffer(quadIndexBuffer);
+    quadArray2->unbind();
+    myScene3 = std::make_unique<Scene>(quadArray2, myCamera);
 }
 
 Application::~Application()
@@ -162,6 +189,7 @@ void Application::run()
 
             myRenderer.render(*shader, *myScene1);
             myRenderer.render(*shader, *myScene2);
+            myRenderer.render(*shader, *myScene3);
 
             if(first)
             {
@@ -170,7 +198,7 @@ void Application::run()
             }
             for (Layer* layer : myLayerStack)
                 layer->onUpdate();
-
+                    
             imGuiLayer->begin();
             for (Layer* layer : myLayerStack)
                 layer->onImGuiRender();
