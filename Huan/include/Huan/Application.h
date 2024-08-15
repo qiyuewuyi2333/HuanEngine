@@ -11,6 +11,7 @@
 #include "Layer/Layer.h"
 #include "Layer/LayerStack.h"
 #include "Renderer/Renderer.h"
+#include "util/TimeStep.h"
 
 
 namespace Huan
@@ -42,15 +43,7 @@ class HUAN_API Application
     std::unique_ptr<Window> myWindow;
     LayerStack myLayerStack;
     bool isRunning = true;
-    /**
-     * @brief For first triangle test
-     *
-     */
-    std::unique_ptr<Scene> myScene1;
-    std::unique_ptr<Scene> myScene2;
-    std::unique_ptr<Scene> myScene3;
-    std::unique_ptr<Shader> shader;
-    Renderer& myRenderer;
+float myLastFrameTime = 0.0f;
 };
 inline Application* createApplication();
 

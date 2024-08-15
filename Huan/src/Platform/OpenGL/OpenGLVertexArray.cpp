@@ -50,12 +50,12 @@ OpenGLVertexArray::~OpenGLVertexArray()
 void OpenGLVertexArray::bind() const
 {
     glBindVertexArray(myRendererID);
-    HUAN_CORE_TRACE("OpenGL VertexArray binded, ID: {0}", myRendererID);
+    // HUAN_CORE_TRACE("OpenGL VertexArray binded, ID: {0}", myRendererID);
 }
 void OpenGLVertexArray::unbind() const
 {
     glBindVertexArray(0);
-    HUAN_CORE_TRACE("OpenGL VertexArray unbinded, ID: {0}", myRendererID);
+    // HUAN_CORE_TRACE("OpenGL VertexArray unbinded, ID: {0}", myRendererID);
 }
 /**
  * @brief Set the VertexArray's Layout pointer with the VertexBuffer's Layout

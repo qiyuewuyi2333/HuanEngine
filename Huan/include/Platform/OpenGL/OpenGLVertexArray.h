@@ -2,7 +2,7 @@
 #include "Renderer/VertexArray.h"
 namespace Huan
 {
-class OpenGLVertexArray : public VertexArray
+class HUAN_API OpenGLVertexArray : public VertexArray
 {
   public:
     OpenGLVertexArray();

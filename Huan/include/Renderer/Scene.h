@@ -1,16 +1,14 @@
 #pragma once
 
 #include "Renderer/Utils/Camera.h"
-#include "VertexArray.h"
-#include <memory>
-#include <vector>
+#include "Renderer/VertexArray.h"
 namespace Huan
 {
 /**
  * @brief Easy scene for renderer testing
  *
  */
-class Scene
+class HUAN_API Scene
 {
   public:
     Scene() = delete;

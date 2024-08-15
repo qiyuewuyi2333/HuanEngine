@@ -18,8 +18,8 @@ namespace Huan
 		virtual std::pair<float, float> getMousePositionImpl() const = 0;
 		virtual float getMouseXImpl() const = 0;
 		virtual float getMouseYImpl() const = 0;
-
-	protected:
-		static Input* instance;
+        
+        protected:
+        static Input* instance;
 	};
 }

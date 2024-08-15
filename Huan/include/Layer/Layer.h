@@ -2,6 +2,7 @@
 #include "HuanPCH.h"
 #include "Events/Event.h"
 #include "Events/EventDispatcher.h"
+#include "util/TimeStep.h"
 #include "Huan/Core.h"
 
 namespace Huan
@@ -14,7 +15,7 @@ namespace Huan
 
 		virtual void onAttach() {}
 		virtual void onDetach() {}
-		virtual void onUpdate() {}
+		virtual void onUpdate(TimeStep timeStep) {}
 		virtual void onEvent(Event& event) {}
 		virtual void onImGuiRender() {};
 		const std::string& getName() const;

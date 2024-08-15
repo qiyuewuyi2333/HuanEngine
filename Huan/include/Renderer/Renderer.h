@@ -4,7 +4,6 @@
 #include "RenderCommand.h"
 #include "Renderer/Shader.h"
 #include "Renderer/Scene.h"
-#include <memory>
 namespace Huan
 {
 enum RendererAPIName
@@ -13,7 +12,7 @@ enum RendererAPIName
     OpenGL,
     Vulkan
 };
-class Renderer
+class HUAN_API Renderer
 {
   public:
     static Renderer& getInstance()

@@ -7,6 +7,10 @@ OrthogonalCamera::OrthogonalCamera(float left, float right, float bottom, float 
     : myProjectionMatrix(glm::ortho(left, right, bottom, top, -1.0f, 1.0f)), myViewMatrix(1.0f)
 {
     myViewProjectionMatrix = myProjectionMatrix * myViewMatrix;
+    myUp = {0.0f, 1.0f, 0.0f};
+    myFront = {0.0f, 0.0f, -1.0f};
+    myPosition = {0.0f, 0.0f, 0.0f};
+    updateViewMatrix();
 }
 // OrthogonalCamera::OrthogonalCamera(float left, float right, float bottom, float top,
 //                                    const glm::vec3& position, const glm::vec3& up, float yaw, float pitch)
@@ -58,6 +62,21 @@ const glm::mat4& OrthogonalCamera::getViewProjectionMatrix() const
 void OrthogonalCamera::updateViewMatrix()
 {
     myViewMatrix = glm::lookAt(myPosition, myPosition + myFront, myUp);
+    myViewProjectionMatrix = myProjectionMatrix * myViewMatrix;
+}
+void OrthogonalCamera::move(const glm::vec3& move)
+{
+    myPosition += move * myCameraMoveSpeed;
+    updateViewMatrix();
+}
+void OrthogonalCamera::rotate(float rotateValue)
+{
+    myRotate += rotateValue * myCameraRotateSpeed;
+    updateViewMatrix();
+}
+const glm::vec3& OrthogonalCamera::getFront() const
+{
+    return myFront;
 }
 
 } // namespace Huan

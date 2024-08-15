@@ -1,10 +1,11 @@
 #pragma once
 
 #include "HuanPCH.h"
+#include "Huan/Core.h"
 
 namespace Huan
 {
-class Shader
+class HUAN_API Shader
 {
   public:
     unsigned int ID;

@@ -6,6 +6,9 @@
 #include "util/Log.h"
 #include "imgui/ImGuiLayer.h"
 
+// Rendering
+#include "Renderer/RendererConfig.h"
+// ----------
 // Entry Point
 #include "EntryPoint.h"
 // -----------

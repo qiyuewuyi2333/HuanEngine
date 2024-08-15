@@ -2,7 +2,7 @@
 #include "RendererAPI.h"
 namespace Huan
 {
-class RenderCommand
+class HUAN_API RenderCommand
 {
   public:
     RenderCommand();

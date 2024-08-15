@@ -1,9 +1,10 @@
 #pragma once
 #include "Renderer/Buffer/IndexBuffer.h"
+#include "Huan/Core.h"
 
 namespace Huan
 {
-class OpenGLIndexBuffer : public IndexBuffer
+class HUAN_API OpenGLIndexBuffer : public IndexBuffer
 {
   public:
     OpenGLIndexBuffer(uint32_t* indices, uint32_t count);

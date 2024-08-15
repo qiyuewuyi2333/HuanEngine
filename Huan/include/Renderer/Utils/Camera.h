@@ -17,8 +17,11 @@ class Camera
     virtual const glm::mat4& getViewMatrix() const = 0;
     virtual const glm::mat4& getProjectionMatrix() const = 0;
     virtual const glm::vec3& getPosition() const = 0;
+    virtual const glm::vec3& getFront() const = 0;
     virtual const glm::mat4& getViewProjectionMatrix() const = 0;
 
     virtual void updateViewMatrix() = 0;
+    virtual void move(const glm::vec3& move = {0.0f, 0.0f, 0.0f}) = 0;
+    virtual void rotate(float rotateValue) =0;
 };
 } // namespace Huan

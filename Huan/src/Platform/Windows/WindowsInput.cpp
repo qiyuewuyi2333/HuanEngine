@@ -1,9 +1,10 @@
 #include "Huan/Application.h"
+#include "Huan/Window.h"
 #include "platform/Windows/windowsInput.h"
 
 namespace Huan
 {
-	Input* Input::instance = nullptr;
+	Input* Input::instance = new WindowsInput();
 	WindowsInput::WindowsInput()
 	{
 		instance = this;

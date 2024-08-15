@@ -1,8 +1,7 @@
 #pragma once
 #include "HuanPCH.h"
 #include "util/Log.h"
-#include <cstdint>
-
+#include "Huan/Core.h"
 namespace Huan
 {
 enum class ShaderDataType
@@ -20,9 +19,9 @@ enum class ShaderDataType
     Int4,
     Bool,
 };
-uint32_t shaderDataTypeToSize(ShaderDataType type);
+uint32_t HUAN_API shaderDataTypeToSize(ShaderDataType type);
 
-struct BufferLayoutElement
+struct HUAN_API BufferLayoutElement
 {
   public:
     ShaderDataType type;
@@ -69,7 +68,7 @@ struct BufferLayoutElement
         return 0;
     }
 };
-class BufferLayout
+class HUAN_API BufferLayout
 {
   public:
     BufferLayout() = default;

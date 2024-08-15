@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Renderer/Utils/Camera.h"
-
+#include "Huan/Core.h"
 namespace Huan
 {
-class OrthogonalCamera : public Camera
+class HUAN_API OrthogonalCamera : public Camera
 {
   public:
     OrthogonalCamera(float left, float right, float bottom, float top);
@@ -24,9 +24,12 @@ class OrthogonalCamera : public Camera
     virtual const glm::mat4& getViewMatrix() const override;
     virtual const glm::mat4& getProjectionMatrix() const override;
     virtual const glm::vec3& getPosition() const override;
+    virtual const glm::vec3& getFront() const override;
     virtual const glm::mat4& getViewProjectionMatrix() const override;
 
     virtual void updateViewMatrix() override;
+    virtual void move(const glm::vec3& move = {0.0f, 0.0f, 0.0f}) override;
+    virtual void rotate(float rotateValue) override;
 
   private:
     glm::mat4 myProjectionMatrix;
@@ -35,7 +38,11 @@ class OrthogonalCamera : public Camera
     glm::vec3 myPosition;
     glm::vec3 myUp;
     glm::vec3 myFront;
+    float myRotate;
     float myYaw;
     float myPitch;
+
+    float myCameraMoveSpeed = 1.0f;
+    float myCameraRotateSpeed = 1.0f;
 };
 } // namespace Huan
