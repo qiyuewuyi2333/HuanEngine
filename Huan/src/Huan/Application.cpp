@@ -14,10 +14,7 @@
 #include "util/Log.h"
 #include "Renderer/RendererConfig.h"
 #include "util/TimeStep.h"
-#include "util/stb_image/StbImage.h"
-#include <memory>
-#include <winbase.h>
-
+#include "util/StbImage.h"
 namespace Huan
 {
 // Test function for capture the first image from rendering
@@ -98,7 +95,7 @@ Application::Application() : myLayerStack()
     Log::init();
     HUAN_CORE_INFO("Initialized Log! ");
     // create window
-    myWindow = std::unique_ptr<Window>(Window::create());
+    myWindow = Scope<Window>(Window::create());
     // use Application's onEvent as the window's callback func
     myWindow->setEventCallback(BIND_EVENT_FUNC(Application::onEvent));
 

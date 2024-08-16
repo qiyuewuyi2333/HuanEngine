@@ -1,21 +1,26 @@
 #include "Renderer/Scene.h"
+#include "Renderer/Texture/Texture.h"
 #include "Renderer/VertexArray.h"
 #include <memory>
 
 namespace Huan
 {
 
-Scene::Scene(std::shared_ptr<VertexArray> vertexArray, std::shared_ptr<Camera> camera) : myCamera(camera)
+Scene::Scene(Ref<VertexArray> vertexArray, Ref<Camera> camera, Ref<Texture> texture) : myCamera(camera),myTexture(texture)
 {
     myVertexArrays.push_back(vertexArray);
 }
-std::vector<std::shared_ptr<VertexArray>>& Scene::getVertexArrays()
+std::vector<Ref<VertexArray>>& Scene::getVertexArrays()
 {
     return myVertexArrays;
 }
-std::shared_ptr<Camera> Scene::getCamera() const
+Ref<Camera> Scene::getCamera() const
 {
     return myCamera;
+}
+Ref<Texture> Scene::getTexture() const
+{
+    return myTexture;
 }
 
 } // namespace Huan

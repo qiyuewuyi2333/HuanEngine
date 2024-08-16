@@ -62,7 +62,7 @@ void OpenGLVertexArray::unbind() const
  *
  * @param vertexBuffer
  */
-void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
+void OpenGLVertexArray::addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 {
     HUAN_CORE_ASSERT(vertexBuffer->getLayout().getElements().size(), "VertexBuffer has no layout!");
     bind();
@@ -80,7 +80,7 @@ void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer>& ver
     myVertexBuffers.push_back(vertexBuffer);
     HUAN_CORE_TRACE("OpenGL VertexArray {0} add VertexBuffer, ID: {1}", myRendererID, vertexBuffer->getMyRendererID());
 }
-void OpenGLVertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
+void OpenGLVertexArray::setIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
 {
     myIndexBuffer = indexBuffer;
     HUAN_CORE_TRACE("OpenGL VertexArray, ID: {0} set IndexBuffer, ID: {1}", myRendererID,
@@ -90,11 +90,11 @@ constexpr uint32_t OpenGLVertexArray::getMyRendererID() const
 {
     return myRendererID;
 }
-const std::vector<std::shared_ptr<VertexBuffer>>& OpenGLVertexArray::getVertexBuffers() const
+const std::vector<Ref<VertexBuffer>>& OpenGLVertexArray::getVertexBuffers() const
 {
     return myVertexBuffers;
 }
-const std::shared_ptr<IndexBuffer>& OpenGLVertexArray::getIndexBuffer() const
+const Ref<IndexBuffer>& OpenGLVertexArray::getIndexBuffer() const
 {
     return myIndexBuffer;
 }

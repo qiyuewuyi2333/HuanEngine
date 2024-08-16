@@ -2,6 +2,7 @@
 
 #include "Renderer/Utils/Camera.h"
 #include "Renderer/VertexArray.h"
+#include "Renderer/Texture/Texture.h"
 namespace Huan
 {
 /**
@@ -12,14 +13,16 @@ class HUAN_API Scene
 {
   public:
     Scene() = delete;
-    Scene(std::shared_ptr<VertexArray> vertexArray, std::shared_ptr<Camera> camera);
+    Scene(Ref<VertexArray> vertexArray, Ref<Camera> camera, Ref<Texture> texture = nullptr);
     virtual ~Scene() = default;
-    std::vector<std::shared_ptr<VertexArray>>& getVertexArrays();
-    std::shared_ptr<Camera> getCamera() const;
+    std::vector<Ref<VertexArray>>& getVertexArrays();
+    Ref<Camera> getCamera() const;
+    Ref<Texture> getTexture() const;
 
   private:
-    std::vector<std::shared_ptr<VertexArray>> myVertexArrays;
-    std::shared_ptr<Camera> myCamera;
+    std::vector<Ref<VertexArray>> myVertexArrays;
+    Ref<Camera> myCamera;
+    Ref<Texture> myTexture;
 };
 
 } // namespace Huan

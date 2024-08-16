@@ -8,11 +8,11 @@ namespace Huan
 	{
 	public:
 		static void init();
-		static std::shared_ptr<spdlog::logger>& getCoreLogger() { return sCoreLogger; }
-		static std::shared_ptr<spdlog::logger>& getClientLogger() { return sClientLogger; }
+		static Ref<spdlog::logger>& getCoreLogger() { return sCoreLogger; }
+		static Ref<spdlog::logger>& getClientLogger() { return sClientLogger; }
 	private:
-		static std::shared_ptr<spdlog::logger> sCoreLogger;
-		static std::shared_ptr<spdlog::logger> sClientLogger;
+		static Ref<spdlog::logger> sCoreLogger;
+		static Ref<spdlog::logger> sClientLogger;
 	};
 }
 

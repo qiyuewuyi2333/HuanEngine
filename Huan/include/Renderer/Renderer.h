@@ -21,10 +21,10 @@ class HUAN_API Renderer
         return instance;
     }
     Renderer();
-    void render(Shader& shader, Scene& scene);
-    const std::unique_ptr<RenderCommand>& getMyRenderCommand() const;
+    void render(Ref<Shader>& shader, Scene& scene);
+    const Scope<RenderCommand>& getMyRenderCommand() const;
 
   private:
-    std::unique_ptr<RenderCommand> myRenderCommand;
+    Scope<RenderCommand> myRenderCommand;
 };
 } // namespace Huan

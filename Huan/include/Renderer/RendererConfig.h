@@ -6,11 +6,17 @@
     #include "Platform/OpenGL/Buffer/OpenGLVertexBuffer.h"
     #include "Platform/OpenGL/OpenGLVertexArray.h"
     #include "Platform/OpenGL/OpenGLRendererAPI.h"
+    #include "Platform/OpenGL/OpenGLShader.h"
+    #include "Platform/OpenGL/Texture/OpenGLTexture2D.h"
     // #include "OpenGLBuffer.h"
-    using CurrentVertexBuffer =  Huan::OpenGLVertexBuffer;
-    using CurrentIndexBuffer  =  Huan::OpenGLIndexBuffer;
-    using CurrentVertexArray  =  Huan::OpenGLVertexArray;
-    using CurrentRendererAPI  =  Huan::OpenGLRendererAPI;
+    namespace Huan {
+        using CurrentVertexBuffer =  OpenGLVertexBuffer;
+        using CurrentIndexBuffer  =  OpenGLIndexBuffer;
+        using CurrentVertexArray  =  OpenGLVertexArray;
+        using CurrentRendererAPI  =  OpenGLRendererAPI;
+        using CurrentShader       =  OpenGLShader;
+        using CurrentTexture2D    =  OpenGLTexture2D;
+    }
 #elif defined(HUAN_USING_VULKAN)
     // #include "VulkanBuffer.h"
     // typedef VulkanBuffer CurrentBuffer;

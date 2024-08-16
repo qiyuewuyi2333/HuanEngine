@@ -22,7 +22,9 @@ class ExampleLayer : public Huan::Layer
     Huan::Scope<Huan::Scene> myScene1;
     Huan::Scope<Huan::Scene> myScene2;
     Huan::Scope<Huan::Scene> myScene3;
-    Huan::Scope<Huan::Shader> shader;
+    Huan::Scope<Huan::Scene> myScene4;
+    Huan::Ref<Huan::Shader> shader;
+    Huan::Ref<Huan::Shader> shader2;
     Huan::Ref<Huan::Camera> myCamera;
     Huan::Renderer& myRenderer;
 

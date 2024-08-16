@@ -14,7 +14,7 @@ class HUAN_API RenderCommand
     void setRendererAPIInstance(RendererAPI* api);
 
   private:
-    std::unique_ptr<RendererAPI> myRendererAPI;
+    Scope<RendererAPI> myRendererAPI;
 };
 
 } // namespace Huan

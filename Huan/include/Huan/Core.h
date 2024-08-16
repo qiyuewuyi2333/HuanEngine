@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 #ifdef HUAN_PLATFORM_WINDOWS
 	#ifdef HUAN_BUILD_DLL
@@ -29,9 +30,9 @@ namespace Huan
 {
 
 	template<typename T>
-	using Scope = std::unique_ptr<T>;
+	using Scope = ::std::unique_ptr<T>;
 
 	template<typename T>
-	using Ref = std::shared_ptr<T>;
+	using Ref = ::std::shared_ptr<T>;
 
 }
