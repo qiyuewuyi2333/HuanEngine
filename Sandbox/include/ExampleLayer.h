@@ -19,11 +19,11 @@ class ExampleLayer : public Huan::Layer
     void onEvent(Huan::Event& event) override;
 
   private:
-    std::unique_ptr<Huan::Scene> myScene1;
-    std::unique_ptr<Huan::Scene> myScene2;
-    std::unique_ptr<Huan::Scene> myScene3;
-    std::unique_ptr<Huan::Shader> shader;
-    std::shared_ptr<Huan::Camera> myCamera;
+    Huan::Scope<Huan::Scene> myScene1;
+    Huan::Scope<Huan::Scene> myScene2;
+    Huan::Scope<Huan::Scene> myScene3;
+    Huan::Scope<Huan::Shader> shader;
+    Huan::Ref<Huan::Camera> myCamera;
     Huan::Renderer& myRenderer;
 
 };

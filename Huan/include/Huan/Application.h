@@ -13,7 +13,6 @@
 #include "Renderer/Renderer.h"
 #include "util/TimeStep.h"
 
-
 namespace Huan
 {
 std::unordered_map<int, std::string> createKeycodeMap();
@@ -40,10 +39,10 @@ class HUAN_API Application
     static Application* instance;
 
   private:
-    std::unique_ptr<Window> myWindow;
+    Scope<Window> myWindow;
     LayerStack myLayerStack;
     bool isRunning = true;
-float myLastFrameTime = 0.0f;
+    float myLastFrameTime = 0.0f;
 };
 inline Application* createApplication();
 
