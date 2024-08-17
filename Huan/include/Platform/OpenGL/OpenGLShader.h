@@ -36,7 +36,6 @@ class HUAN_API OpenGLShader : public Shader
     void checkCompileErrors(GLuint shader, GLenum type);
     void compile();
     void readFile(const std::string& filepath);
-    void preProcess(Ref<std::string> source);
 
   private:
     unsigned int myRendererID;

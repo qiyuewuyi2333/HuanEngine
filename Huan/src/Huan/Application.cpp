@@ -123,11 +123,7 @@ void Application::run()
             float time = (float)glfwGetTime();
             TimeStep timestep = time - myLastFrameTime;
             myLastFrameTime = time;
-            if (first)
-            {
-                captureAndSaveOpenGLImage(myWindow->getWidth(), myWindow->getHeight());
-                first = false;
-            }
+            
 
             for (Layer* layer : myLayerStack)
                 layer->onUpdate(timestep);
@@ -138,6 +134,11 @@ void Application::run()
             imGuiLayer->end();
 
             myWindow->onUpdate();
+            if (first)
+            {
+                captureAndSaveOpenGLImage(myWindow->getWidth(), myWindow->getHeight());
+                first = false;
+            }
         }
         HUAN_CORE_TRACE("Application Run over!");
     }
@@ -146,8 +147,8 @@ void Application::run()
 void Application::onEvent(Event& e)
 {
     EventDispatcher dispatcher(e);
+    
     dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FUNC(Application::onWindowClose));
-
     for (auto it = myLayerStack.end(); it != myLayerStack.begin();)
     {
         --it;

@@ -82,11 +82,13 @@ void ImGuiLayer::onDetach()
 
 void ImGuiLayer::onImGuiRender()
 {
-    static bool show = true;
+    static bool show = false;
     ImGui::ShowDemoWindow(&show);
+    ImGui::Begin("ImGuiLayer");
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
     bool isVSync = Application::getInstance()->getWindow().isVSync();
     ImGui::Checkbox("VSync", &isVSync);
+    ImGui::End();
     Application::getInstance()->getWindow().setVSync(isVSync);
 }
 
