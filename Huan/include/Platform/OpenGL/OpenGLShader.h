@@ -2,13 +2,14 @@
 #include "Renderer/Shader.h"
 namespace Huan
 {
+
 class HUAN_API OpenGLShader : public Shader
 {
   public:
-    unsigned int ID;
     // constructor generates the shader on the fly
     // ------------------------------------------------------------------------
-    OpenGLShader(const char* vertexPath, const char* fragmentPath);
+    OpenGLShader(const std::string& vertexPath, const std::string& fragmentPath);
+    OpenGLShader(const std::string& filePath);
 
     // activate the shader
     // ------------------------------------------------------------------------
@@ -32,6 +33,14 @@ class HUAN_API OpenGLShader : public Shader
   private:
     // utility function for checking shader compilation/linking errors.
     // ------------------------------------------------------------------------
-    void checkCompileErrors(GLuint shader, std::string type);
+    void checkCompileErrors(GLuint shader, GLenum type);
+    void compile();
+    void readFile(const std::string& filepath);
+    void preProcess(Ref<std::string> source);
+
+  private:
+    unsigned int myRendererID;
+    std::string myName;
+    std::unordered_map<GLenum, Ref<std::string>> shaderSources;
 };
 } // namespace Huan

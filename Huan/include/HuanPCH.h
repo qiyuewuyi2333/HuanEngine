@@ -7,6 +7,12 @@
 #include <fstream>
 #include <memory>
 #include <optional>
+#include <vector>
+#include <algorithm>
+#include <unordered_map>
+#include <array>
+#include <filesystem>
+
 #include "spdlog/spdlog.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
