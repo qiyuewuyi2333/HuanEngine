@@ -9,6 +9,10 @@ RenderCommand::RenderCommand()
 {
     myRendererAPI = std::make_unique<CurrentRendererAPI>();
 }
+void RenderCommand::init()
+{
+    myRendererAPI->init();
+}
 
 void RenderCommand::setClearColor(const glm::vec4& color)
 {
@@ -24,5 +28,12 @@ void RenderCommand::drawIndexed(const VertexArray& vertexArray)
 {
     myRendererAPI->drawIndexed(vertexArray);
 }
-
+void RenderCommand::enableBlend()
+{
+    myRendererAPI->enableBlend();
+}
+void RenderCommand::enableDepthTest()
+{
+    myRendererAPI->enableDepthTest();
+}
 } // namespace Huan

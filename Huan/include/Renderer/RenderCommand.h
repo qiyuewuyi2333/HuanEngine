@@ -12,6 +12,8 @@ class HUAN_API RenderCommand
     void clear();
     void drawIndexed(const VertexArray& vertexArray);
     void setRendererAPIInstance(RendererAPI* api);
+    void enableDepthTest();
+    void enableBlend();
 
   private:
     Scope<RendererAPI> myRendererAPI;

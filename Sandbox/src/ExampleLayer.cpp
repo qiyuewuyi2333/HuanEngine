@@ -21,7 +21,7 @@ ExampleLayer::ExampleLayer() : Layer("Example"), myRenderer(Huan::Renderer::getI
                                             "../../../../Assets/Shaders/test1/test1.frag");
     shader2 = std::make_shared<Huan::CurrentShader>("../../../../Assets/Shaders/test2/test2.vert",
                                             "../../../../Assets/Shaders/test2/test2.frag");
-    Huan::Ref<Huan::Texture> texture = std::make_shared<Huan::CurrentTexture2D>("../../../../Assets/Textures/container.png");
+    Huan::Ref<Huan::Texture> texture = std::make_shared<Huan::CurrentTexture2D>("../../../../Assets/Textures/logo.png");
     float triangleVertices[] = {-0.5f, -0.5f, 0.0f, 0.8f, 0.0f, 0.0f, 1.0f, 0.5f, -0.5f, 0.0f, 0.0f,
                                 0.8f,  0.0f,  1.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.8f,  1.0f};
     float quadVertices1[] = {-0.01f, 1.0f,  0.0f, 0.0f, 0.8f, 0.0f, 1.0f, 0.01f, 1.0f,  0.0f, 0.0f, 0.8f, 0.0f, 1.0f,
@@ -48,7 +48,7 @@ ExampleLayer::ExampleLayer() : Layer("Example"), myRenderer(Huan::Renderer::getI
     Huan::BufferLayout layout2 = {{Huan::ShaderDataType::Float3, "inPosition"},
                                   {Huan::ShaderDataType::Float3, "inColor"},
                                   {Huan::ShaderDataType::Float2, "inTexCoord"}};
-    myCamera = std::make_shared<Huan::OrthogonalCamera>(0.0f, 1.0f, 0.0f, 1.0f);
+    myCamera = std::make_shared<Huan::OrthogonalCamera>(-1.6f, 1.6f, -0.9f, 0.9f);
 
     // triangle
     Huan::Ref<Huan::VertexArray> triangleArray = std::make_shared<Huan::CurrentVertexArray>();
@@ -136,8 +136,9 @@ void ExampleLayer::onUpdate(Huan::TimeStep timeStep)
     myRenderer.getMyRenderCommand()->setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
     myRenderer.getMyRenderCommand()->clear();
 
-    myRenderer.render(shader2, *myScene4);
     myRenderer.render(shader,  *myScene1);
+    myRenderer.render(shader2, *myScene4);
+    
     myRenderer.render(shader,  *myScene3);
     myRenderer.render(shader,  *myScene2);
 }

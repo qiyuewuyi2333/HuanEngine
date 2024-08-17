@@ -21,6 +21,7 @@ class HUAN_API Renderer
         return instance;
     }
     Renderer();
+    void init();
     void render(Ref<Shader>& shader, Scene& scene);
     const Scope<RenderCommand>& getMyRenderCommand() const;
 

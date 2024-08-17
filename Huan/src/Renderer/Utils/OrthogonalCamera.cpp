@@ -1,15 +1,14 @@
 #include "Renderer/Utils/OrthogonalCamera.h"
 #include "glm/ext/matrix_clip_space.hpp"
+#include "glm/ext/quaternion_common.hpp"
 
 namespace Huan
 {
 OrthogonalCamera::OrthogonalCamera(float left, float right, float bottom, float top)
     : myProjectionMatrix(glm::ortho(left, right, bottom, top, -1.0f, 1.0f)), myViewMatrix(1.0f)
 {
-    myViewProjectionMatrix = myProjectionMatrix * myViewMatrix;
-    myUp = {0.0f, 1.0f, 0.0f};
-    myFront = {0.0f, 0.0f, -1.0f};
     myPosition = {0.0f, 0.0f, 0.0f};
+    myRotate = 0.0f;
     updateViewMatrix();
 }
 // OrthogonalCamera::OrthogonalCamera(float left, float right, float bottom, float top,
@@ -61,7 +60,9 @@ const glm::mat4& OrthogonalCamera::getViewProjectionMatrix() const
 }
 void OrthogonalCamera::updateViewMatrix()
 {
-    myViewMatrix = glm::lookAt(myPosition, myPosition + myFront, myUp);
+    glm::mat4 transform = glm::translate(glm::mat4(1.0f), myPosition) *
+			glm::rotate(glm::mat4(1.0f), glm::radians(myRotate), glm::vec3(0, 0, 1));
+    myViewMatrix = glm::inverse(transform);
     myViewProjectionMatrix = myProjectionMatrix * myViewMatrix;
 }
 void OrthogonalCamera::move(const glm::vec3& move)
