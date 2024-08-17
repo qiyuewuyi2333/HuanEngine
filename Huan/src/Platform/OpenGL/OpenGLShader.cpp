@@ -47,6 +47,7 @@ void OpenGLShader::compile()
         glShaderSource(shaderID, 1, &sourceCStr, 0);
         glCompileShader(shaderID);
         checkCompileErrors(shaderID, type);
+        HUAN_CORE_TRACE("Compiled shader, ID: {}\n",shaderID);
         glAttachShader(program, shaderID);
         glDeleteShader(shaderID);
         shaderIDs[index++] = shaderID;
@@ -54,6 +55,7 @@ void OpenGLShader::compile()
     myRendererID = program;
     glLinkProgram(program);
     checkCompileErrors(program, GL_PROGRAM);
+    HUAN_CORE_TRACE("Linked shader program, ID: {}\n",program);
     for (auto& shader : shaderIDs)
         glDetachShader(program, shader);
 }
@@ -76,6 +78,7 @@ void OpenGLShader::readFile(const std::string& filepath)
         HUAN_CORE_ERROR("ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ: {}", e.what());
     }
     shaderSources[shaderTypeFromString(p.extension().string())]  = code;
+    myName = p.stem().string();
 }
 void OpenGLShader::bind() const
 {

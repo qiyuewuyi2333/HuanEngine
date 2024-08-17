@@ -3,6 +3,7 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/Scene.h"
 #include "Renderer/Utils/Camera.h"
+#include "Renderer/Utils/OrthogonalCameraController.h"
 #include "util/TimeStep.h"
 
 
@@ -25,7 +26,7 @@ class ExampleLayer : public Huan::Layer
     Huan::Scope<Huan::Scene> myScene4;
     Huan::Ref<Huan::Shader> shader;
     Huan::Ref<Huan::Shader> shader2;
-    Huan::Ref<Huan::Camera> myCamera;
+    Huan::Ref<Huan::OrthogonalCameraController> myCameraController;
     Huan::Renderer& myRenderer;
 
 };

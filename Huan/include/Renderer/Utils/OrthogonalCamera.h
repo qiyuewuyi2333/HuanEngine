@@ -15,6 +15,7 @@ class HUAN_API OrthogonalCamera : public Camera
     virtual ~OrthogonalCamera() = default;
 
     virtual void setProjectionMatrix(const glm::mat4& projectionMatrix) override;
+    virtual void setProjectionMatrix(float left, float right, float bottom, float top) override;
     virtual void setPosition(const glm::vec3& position) override;
     virtual void setMyFront(const glm::vec3& front) override;
     virtual void setUp(const glm::vec3& up) override;
@@ -30,6 +31,7 @@ class HUAN_API OrthogonalCamera : public Camera
     virtual void updateViewMatrix() override;
     virtual void move(const glm::vec3& move = {0.0f, 0.0f, 0.0f}) override;
     virtual void rotate(float rotateValue) override;
+    virtual void zoom(float zoomValue) override;
 
   private:
     glm::mat4 myProjectionMatrix;
@@ -39,10 +41,12 @@ class HUAN_API OrthogonalCamera : public Camera
     glm::vec3 myUp;
     glm::vec3 myFront;
     float myRotate;
+    float myZoom;
     float myYaw;
     float myPitch;
 
     float myCameraMoveSpeed = 1.0f;
     float myCameraRotateSpeed = 1.0f;
+    float myCameraZoomSpeed = 1.0f;
 };
 } // namespace Huan

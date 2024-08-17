@@ -6,6 +6,7 @@
 #include "Huan/MouseButtonCodes.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 #include "Renderer/Buffer/BufferLayout.h"
+#include "Renderer/Utils/OrthogonalCameraController.h"
 #include "imgui.h"
 #include "util/Input.h"
 #include "util/Log.h"
@@ -48,7 +49,7 @@ ExampleLayer::ExampleLayer() : Layer("Example"), myRenderer(Huan::Renderer::getI
     Huan::BufferLayout layout2 = {{Huan::ShaderDataType::Float3, "inPosition"},
                                   {Huan::ShaderDataType::Float3, "inColor"},
                                   {Huan::ShaderDataType::Float2, "inTexCoord"}};
-    myCamera = std::make_shared<Huan::OrthogonalCamera>(-1.6f, 1.6f, -0.9f, 0.9f);
+    myCameraController = std::make_shared<Huan::OrthogonalCameraController>(1280.0f / 720.0f);
 
     // triangle
     Huan::Ref<Huan::VertexArray> triangleArray = std::make_shared<Huan::CurrentVertexArray>();
@@ -63,7 +64,7 @@ ExampleLayer::ExampleLayer() : Layer("Example"), myRenderer(Huan::Renderer::getI
     triangleArray->addVertexBuffer(triangleVertexBuffer);
     triangleArray->setIndexBuffer(triangleIndexBuffer1);
     triangleArray->unbind();
-    myScene1 = std::make_unique<Huan::Scene>(triangleArray, myCamera);
+    myScene1 = std::make_unique<Huan::Scene>(triangleArray, myCameraController->getCamera());
 
     // quad1
     Huan::Ref<Huan::VertexArray> quadArray1 = std::make_shared<Huan::CurrentVertexArray>();
@@ -78,7 +79,7 @@ ExampleLayer::ExampleLayer() : Layer("Example"), myRenderer(Huan::Renderer::getI
     quadIndexBuffer->bind();
     quadArray1->setIndexBuffer(quadIndexBuffer);
     quadArray1->unbind();
-    myScene2 = std::make_unique<Huan::Scene>(quadArray1, myCamera);
+    myScene2 = std::make_unique<Huan::Scene>(quadArray1, myCameraController->getCamera());
 
     // quad2
     Huan::Ref<Huan::VertexArray> quadArray2 = std::make_shared<Huan::CurrentVertexArray>();
@@ -91,7 +92,7 @@ ExampleLayer::ExampleLayer() : Layer("Example"), myRenderer(Huan::Renderer::getI
     quadIndexBuffer->bind();
     quadArray2->setIndexBuffer(quadIndexBuffer);
     quadArray2->unbind();
-    myScene3 = std::make_unique<Huan::Scene>(quadArray2, myCamera);
+    myScene3 = std::make_unique<Huan::Scene>(quadArray2, myCameraController->getCamera());
 
     // quad3
     Huan::Ref<Huan::VertexArray> quadArray3 = std::make_shared<Huan::CurrentVertexArray>();
@@ -106,7 +107,7 @@ ExampleLayer::ExampleLayer() : Layer("Example"), myRenderer(Huan::Renderer::getI
     quadIndexBuffer2->bind();
     quadArray3->setIndexBuffer(quadIndexBuffer2);
     quadArray3->unbind();
-    myScene4 = std::make_unique<Huan::Scene>(quadArray3, myCamera, texture);
+    myScene4 = std::make_unique<Huan::Scene>(quadArray3, myCameraController->getCamera(), texture);
 }
 
 void ExampleLayer::onAttach()
@@ -119,20 +120,9 @@ void ExampleLayer::onDetach()
 
 void ExampleLayer::onUpdate(Huan::TimeStep timeStep)
 {
-    if (Huan::Input::isKeyPressed(HUAN_KEY_LEFT))
-        myCamera->move({-timeStep, 0.0f, 0.0f});
-    else if (Huan::Input::isKeyPressed(HUAN_KEY_RIGHT))
-        myCamera->move({timeStep, 0.0f, 0.0f});
-
-    if (Huan::Input::isKeyPressed(HUAN_KEY_UP))
-        myCamera->move({0.0f, timeStep, 0.0f});
-    else if (Huan::Input::isKeyPressed(HUAN_KEY_DOWN))
-        myCamera->move({0.0f, -timeStep, 0.0f});
-
-    if (Huan::Input::isKeyPressed(HUAN_KEY_A))
-        myCamera->rotate(timeStep);
-    else if (Huan::Input::isKeyPressed(HUAN_KEY_D))
-        myCamera->rotate(-timeStep);
+    
+    myCameraController->onUpdate(timeStep);
+    
     myRenderer.getMyRenderCommand()->setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
     myRenderer.getMyRenderCommand()->clear();
 
@@ -151,6 +141,7 @@ void ExampleLayer::onImGuiRender()
 
 void ExampleLayer::onEvent(Huan::Event& event)
 {
+    myCameraController->onEvent(event);
     // HUAN_CLIENT_INFO("{0}", event.toString());
     if (event.getEventType() == Huan::EventType::KeyPressed)
     {

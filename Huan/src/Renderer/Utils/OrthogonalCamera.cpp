@@ -9,6 +9,7 @@ OrthogonalCamera::OrthogonalCamera(float left, float right, float bottom, float 
 {
     myPosition = {0.0f, 0.0f, 0.0f};
     myRotate = 0.0f;
+    myZoom = 1.0f;
     updateViewMatrix();
 }
 // OrthogonalCamera::OrthogonalCamera(float left, float right, float bottom, float top,
@@ -21,11 +22,19 @@ OrthogonalCamera::OrthogonalCamera(float left, float right, float bottom, float 
 void OrthogonalCamera::setPosition(const glm::vec3& postion)
 {
     myPosition = postion;
+    updateViewMatrix();
 }
 void OrthogonalCamera::setProjectionMatrix(const glm::mat4& projectionMatrix)
 {
     myProjectionMatrix = projectionMatrix;
+    updateViewMatrix();
 }
+ void OrthogonalCamera::setProjectionMatrix(float left, float right, float bottom, float top)
+{
+    myProjectionMatrix = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
+    updateViewMatrix();
+}
+
 void OrthogonalCamera::setMyFront(const glm::vec3& front)
 {
     myFront = front;
@@ -63,7 +72,7 @@ void OrthogonalCamera::updateViewMatrix()
     glm::mat4 transform = glm::translate(glm::mat4(1.0f), myPosition) *
 			glm::rotate(glm::mat4(1.0f), glm::radians(myRotate), glm::vec3(0, 0, 1));
     myViewMatrix = glm::inverse(transform);
-    myViewProjectionMatrix = myProjectionMatrix * myViewMatrix;
+    myViewProjectionMatrix = myProjectionMatrix * myZoom * myViewMatrix;
 }
 void OrthogonalCamera::move(const glm::vec3& move)
 {
@@ -75,6 +84,12 @@ void OrthogonalCamera::rotate(float rotateValue)
     myRotate += rotateValue * myCameraRotateSpeed;
     updateViewMatrix();
 }
+ void OrthogonalCamera::zoom(float zoomValue)
+ {
+    myZoom += zoomValue * myCameraZoomSpeed;
+    updateViewMatrix();
+ }
+
 const glm::vec3& OrthogonalCamera::getFront() const
 {
     return myFront;
