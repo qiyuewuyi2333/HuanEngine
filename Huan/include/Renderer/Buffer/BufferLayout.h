@@ -80,7 +80,6 @@ class HUAN_API BufferLayout
     std::vector<BufferLayoutElement>::iterator end();
     std::vector<BufferLayoutElement>::const_iterator begin() const;
     std::vector<BufferLayoutElement>::const_iterator end() const;
-
   private:
     void calculateOffsetsAndStride();
 

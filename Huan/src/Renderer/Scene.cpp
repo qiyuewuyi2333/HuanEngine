@@ -8,7 +8,9 @@ namespace Huan
 
 Scene::Scene(Ref<VertexArray> vertexArray, Ref<Camera> camera, Ref<Texture> texture) : myCamera(camera),myTexture(texture)
 {
-    myVertexArrays.push_back(vertexArray);
+    if (vertexArray)
+        myVertexArrays.push_back(vertexArray);
+    uColor = nullptr;
 }
 std::vector<Ref<VertexArray>>& Scene::getVertexArrays()
 {

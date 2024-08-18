@@ -29,7 +29,6 @@ class HUAN_API OpenGLShader : public Shader
     void setMat2(const std::string& name, const glm::mat2& mat) const override;
     void setMat3(const std::string& name, const glm::mat3& mat) const override;
     void setMat4(const std::string& name, const glm::mat4& mat) const override;
-
   private:
     // utility function for checking shader compilation/linking errors.
     // ------------------------------------------------------------------------

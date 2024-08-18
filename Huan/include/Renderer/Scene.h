@@ -23,6 +23,8 @@ class HUAN_API Scene
     std::vector<Ref<VertexArray>> myVertexArrays;
     Ref<Camera> myCamera;
     Ref<Texture> myTexture;
+public:
+    Ref<glm::vec4> uColor;
 };
 
 } // namespace Huan
