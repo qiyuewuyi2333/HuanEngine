@@ -33,8 +33,12 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path) : myPath(path)
     
     glCreateTextures(GL_TEXTURE_2D, 1, &myRendererID);
     glTextureStorage2D(myRendererID, 1, mySizedFormat, myWidth, myHeight);
+
     glTextureParameteri(myRendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTextureParameteri(myRendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTextureParameteri(myRendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTextureParameteri(myRendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
     glTextureSubImage2D(myRendererID, 0, 0, 0, myWidth, myHeight, myFormat, GL_UNSIGNED_BYTE, data);
     stbi_image_free(data);
     glGenerateTextureMipmap(myRendererID);

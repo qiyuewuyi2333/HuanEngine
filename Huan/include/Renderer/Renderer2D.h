@@ -4,6 +4,7 @@
 #include "Shader.h"
 #include "Huan/Core.h"
 #include "Primitives/Color.h"
+#include "Texture/Texture2D.h"
 
 namespace Huan
 {
@@ -12,6 +13,9 @@ struct Renderer2DData
     Ref<Camera>         camera;
     Ref<Shader>         platSingleColorShader;
     Ref<VertexArray>    quadVertexArray;
+    Ref<VertexArray>    quadTextureVertexArray;
+    Ref<Shader>         quadTextureShader;
+    Ref<Texture>        myTexture;
 };
 
 class HUAN_API Renderer2D
@@ -37,6 +41,8 @@ public:
     // primitives
     void drawQuad(const glm::vec2& position, const glm::vec2& size, const Color& color);
     void drawQuad(const glm::vec3& position, const glm::vec2& size, const Color& color);
+    void drawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture>& texture);
+    void drawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture>& texture);
 
     // get
     const Scope<RenderCommand>& getRenderCommand() const;

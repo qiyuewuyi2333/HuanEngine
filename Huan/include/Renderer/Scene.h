@@ -18,12 +18,14 @@ class HUAN_API Scene
     std::vector<Ref<VertexArray>>& getVertexArrays();
     Ref<Camera> getCamera() const;
     Ref<Texture> getTexture() const;
+    void loadTexture(const std::string& path);
 
   private:
     std::vector<Ref<VertexArray>> myVertexArrays;
     Ref<Camera> myCamera;
     Ref<Texture> myTexture;
-public:
+
+  public:
     Ref<glm::vec4> uColor;
 };
 
