@@ -79,6 +79,7 @@ void OpenGLShader::readFile(const std::string& filepath)
     }
     shaderSources[shaderTypeFromString(p.extension().string())]  = code;
     myName = p.stem().string();
+
 }
 void OpenGLShader::bind() const
 {

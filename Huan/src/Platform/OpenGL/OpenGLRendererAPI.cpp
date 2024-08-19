@@ -6,7 +6,7 @@ namespace Huan
 {
 void OpenGLRendererAPI::init()
 {
-    // glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
     // glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -22,6 +22,7 @@ void OpenGLRendererAPI::clear()
 void OpenGLRendererAPI::drawIndexed(const VertexArray& vertexArray)
 {
     glDrawElements(GL_TRIANGLES, vertexArray.getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void OpenGLRendererAPI::enableBlend()

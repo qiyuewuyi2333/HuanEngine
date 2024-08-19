@@ -8,15 +8,17 @@
 
 namespace Huan
 {
+
 struct Renderer2DData
 {
     Ref<Camera>         camera;
-    Ref<Shader>         platSingleColorShader;
     Ref<VertexArray>    quadVertexArray;
     Ref<VertexArray>    quadTextureVertexArray;
     Ref<Shader>         quadTextureShader;
     Ref<Texture>        myTexture;
+    Ref<Texture>        myWhiteTexture;
 };
+
 
 class HUAN_API Renderer2D
 {

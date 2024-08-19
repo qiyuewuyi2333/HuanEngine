@@ -30,7 +30,7 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path) : myPath(path)
     default:
         HUAN_CORE_ASSERT(false, "Unsupported format");
     }
-    
+
     glCreateTextures(GL_TEXTURE_2D, 1, &myRendererID);
     glTextureStorage2D(myRendererID, 1, mySizedFormat, myWidth, myHeight);
 
@@ -44,6 +44,20 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path) : myPath(path)
     glGenerateTextureMipmap(myRendererID);
     HUAN_CORE_TRACE("Loaded image {0} with width {1} and height {2}", path, width, height);
 }
+OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height) : myWidth(width), myHeight(height)
+{
+    mySizedFormat = GL_RGBA8;
+    myFormat = GL_RGBA;
+
+    glCreateTextures(GL_TEXTURE_2D, 1, &myRendererID);
+    glTextureStorage2D(myRendererID, 1, mySizedFormat, myWidth, myHeight);
+
+    glTextureParameteri(myRendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTextureParameteri(myRendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glTextureParameteri(myRendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTextureParameteri(myRendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+}
 OpenGLTexture2D::~OpenGLTexture2D()
 {
     glDeleteTextures(1, &myRendererID);
@@ -53,5 +67,11 @@ void OpenGLTexture2D::bind(uint32_t slot) const
 {
     glBindTextureUnit(slot, myRendererID);
     // HUAN_CORE_TRACE("Bind texture, ID: {0}, path: {1}, slot: {2}", myRendererID, myPath, slot);
+}
+void OpenGLTexture2D::setData(void* data, unsigned int size)
+{
+    uint32_t bpp = myFormat == GL_RGBA ? 4 : 3;
+    HUAN_CORE_ASSERT(size == myWidth * myHeight * bpp, "Data must be entire texture");
+    glTextureSubImage2D(myRendererID, 0, 0, 0, myWidth, myHeight, myFormat, GL_UNSIGNED_BYTE, data);
 }
 } // namespace Huan

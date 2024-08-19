@@ -12,6 +12,7 @@ class Texture
     virtual constexpr unsigned int getMyID() const = 0;
 
     virtual void bind(unsigned int slot = 0) const = 0;
+    virtual void setData(void* data, unsigned int size) = 0;
 };
 
 } // namespace Huan

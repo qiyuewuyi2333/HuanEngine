@@ -8,6 +8,7 @@
 #include "Renderer/Buffer/VertexBuffer.h"
 #include "Renderer/RenderCommand.h"
 #include "Renderer/Renderer.h"
+#include "Renderer/Renderer2D.h"
 #include "Renderer/Scene.h"
 #include "Renderer/Shader.h"
 #include "Renderer/Utils/Camera.h"
@@ -100,7 +101,6 @@ Application::Application() : myLayerStack()
     myWindow = Scope<Window>(Window::create());
     // use Application's onEvent as the window's callback func
     myWindow->setEventCallback(BIND_EVENT_FUNC(Application::onEvent));
-    Renderer::getInstance().init();
 
     imGuiLayer = new ImGuiLayer();
     pushOverlay(imGuiLayer);
