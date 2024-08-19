@@ -82,10 +82,12 @@ void ImGuiLayer::onDetach()
 
 void ImGuiLayer::onImGuiRender()
 {
+    HUAN_PROFILE_FUNCTION();
     static bool show = false;
     // ImGui::ShowDemoWindow(&show);
     ImGui::Begin("ImGuiLayer");
-    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate,
+                ImGui::GetIO().Framerate);
     bool isVSync = Application::getInstance()->getWindow().isVSync();
     ImGui::Checkbox("VSync", &isVSync);
     ImGui::End();
@@ -95,6 +97,7 @@ void ImGuiLayer::onImGuiRender()
 void ImGuiLayer::begin()
 {
 
+    HUAN_PROFILE_FUNCTION();
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
@@ -104,6 +107,7 @@ void ImGuiLayer::begin()
 
 void ImGuiLayer::end()
 {
+    HUAN_PROFILE_FUNCTION();
     ImGuiIO& io = ImGui::GetIO();
     Application* app = Application::getInstance();
     io.DisplaySize =
@@ -128,6 +132,7 @@ void ImGuiLayer::end()
  */
 void ImGuiLayer::onEvent(Event& e)
 {
+    HUAN_PROFILE_FUNCTION();
     dispatcher.reset(e);
     dispatcher.dispatch<MouseMovedEvent>(BIND_EVENT_FUNC(ImGuiLayer::handleMouseMovedEvent));
     dispatcher.dispatch<MouseButtonPressedEvent>(BIND_EVENT_FUNC(ImGuiLayer::handleMouseButtonPressedEvent));
@@ -141,6 +146,7 @@ void ImGuiLayer::onEvent(Event& e)
 
 bool ImGuiLayer::handleMouseMovedEvent(MouseMovedEvent& e)
 {
+    HUAN_PROFILE_FUNCTION();
     ImGuiIO& io = ImGui::GetIO();
     io.MousePos = ImVec2(e.getX(), e.getY());
     return false;
@@ -148,6 +154,7 @@ bool ImGuiLayer::handleMouseMovedEvent(MouseMovedEvent& e)
 
 bool ImGuiLayer::handleMouseButtonPressedEvent(MouseButtonPressedEvent& e)
 {
+    HUAN_PROFILE_FUNCTION();
     // HUAN_CLIENT_INFO(" ImGui: {0}", e.toString());
     ImGuiIO& io = ImGui::GetIO();
     io.MouseDown[e.getMouseButton()] = true;
@@ -156,6 +163,7 @@ bool ImGuiLayer::handleMouseButtonPressedEvent(MouseButtonPressedEvent& e)
 
 bool ImGuiLayer::handleMouseButtonReleasedEvent(MouseButtonReleasedEvent& e)
 {
+    HUAN_PROFILE_FUNCTION();
     // HUAN_CLIENT_INFO(" ImGui: {0}", e.toString());
     ImGuiIO& io = ImGui::GetIO();
     io.MouseDown[e.getMouseButton()] = false;
@@ -164,6 +172,7 @@ bool ImGuiLayer::handleMouseButtonReleasedEvent(MouseButtonReleasedEvent& e)
 
 bool ImGuiLayer::handleMouseScrolledEvent(MouseScrolledEvent& e)
 {
+    HUAN_PROFILE_FUNCTION();
     // HUAN_CLIENT_INFO(" ImGui: {0}", e.toString());
     ImGuiIO& io = ImGui::GetIO();
     io.MouseWheelH += e.getXOffset();
@@ -174,6 +183,7 @@ bool ImGuiLayer::handleMouseScrolledEvent(MouseScrolledEvent& e)
 
 bool ImGuiLayer::handleKeyPressedEvent(KeyPressedEvent& e)
 {
+    HUAN_PROFILE_FUNCTION();
     // printKeyName(e);
     ImGuiIO& io = ImGui::GetIO();
     io.KeysDown[e.getKeyCode()] = true;
@@ -187,6 +197,7 @@ bool ImGuiLayer::handleKeyPressedEvent(KeyPressedEvent& e)
 
 bool ImGuiLayer::handleKeyReleasedEvent(KeyReleasedEvent& e)
 {
+    HUAN_PROFILE_FUNCTION();
     // printKeyName(e);
     ImGuiIO& io = ImGui::GetIO();
     io.KeysDown[e.getKeyCode()] = false;
@@ -196,6 +207,7 @@ bool ImGuiLayer::handleKeyReleasedEvent(KeyReleasedEvent& e)
 
 bool ImGuiLayer::handleKeyTypedEvent(KeyTypedEvent& e)
 {
+    HUAN_PROFILE_FUNCTION();
     // printKeyName(e);
     ImGuiIO& io = ImGui::GetIO();
     int keycode = e.getKeyCode();
@@ -207,6 +219,7 @@ bool ImGuiLayer::handleKeyTypedEvent(KeyTypedEvent& e)
 
 bool ImGuiLayer::handleWindowResizeEvent(WindowResizeEvent& e)
 {
+    HUAN_PROFILE_FUNCTION();
     // HUAN_CLIENT_INFO(" ImGui: {0}", e.toString());
     ImGuiIO& io = ImGui::GetIO();
     io.DisplaySize = ImVec2(static_cast<float>(e.getWidth()), static_cast<float>(e.getHeight()));
@@ -217,6 +230,7 @@ bool ImGuiLayer::handleWindowResizeEvent(WindowResizeEvent& e)
 }
 void ImGuiLayer::printKeyName(KeyEvent& e)
 {
+    HUAN_PROFILE_FUNCTION();
     static auto keycodeMap = createKeycodeMap(); // Create map once and reuse it
 
     HUAN_CLIENT_TRACE(" ImGui: {0}: {1}", e.toString(), keycodeMap[e.getKeyCode()]);

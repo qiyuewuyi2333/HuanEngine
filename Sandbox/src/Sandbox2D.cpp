@@ -8,6 +8,7 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::onAttach()
 {
+    HUAN_PROFILE_FUNCTION();
     // shader
     myScene = std::make_shared<Huan::Scene>(nullptr, myCameraController.getCamera());
     myScene->uColor = std::make_shared<glm::vec4>(1.0f);
@@ -24,11 +25,12 @@ void Sandbox2D::onAttach()
 
 void Sandbox2D::onDetach()
 {
+    HUAN_PROFILE_FUNCTION();
 }
 
 void Sandbox2D::onUpdate(Huan::TimeStep ts)
 {
-    HUAN_PROFILE_SCOPE("Sandbox2D::onUpdate");
+    HUAN_PROFILE_FUNCTION();
     // update
     {
         HUAN_PROFILE_SCOPE("CameraController::onUpdate");
@@ -53,6 +55,7 @@ void Sandbox2D::onUpdate(Huan::TimeStep ts)
 
 void Sandbox2D::onImGuiRender()
 {
+    HUAN_PROFILE_FUNCTION();
     ImGui::Begin("Settings");
     ImGui::ColorEdit4("Square Color", glm::value_ptr(myQuad2D->myColor.myColorValue));
     ImGui::End();
@@ -60,5 +63,6 @@ void Sandbox2D::onImGuiRender()
 
 void Sandbox2D::onEvent(Huan::Event& e)
 {
+    HUAN_PROFILE_FUNCTION();
     myCameraController.onEvent(e);
 }

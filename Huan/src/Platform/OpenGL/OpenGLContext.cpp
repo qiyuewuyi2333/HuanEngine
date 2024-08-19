@@ -15,6 +15,7 @@ OpenGLContext::~OpenGLContext()
 
 void OpenGLContext::init()
 {
+    HUAN_PROFILE_FUNCTION();
     glfwMakeContextCurrent(myWindow);
     int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     HUAN_CORE_ASSERT(status, "Failed to initialize Glad!");
@@ -27,6 +28,7 @@ void OpenGLContext::init()
 
 void OpenGLContext::swapBuffers()
 {
+    HUAN_PROFILE_FUNCTION();
     glfwSwapBuffers(myWindow);
 }
 } // namespace Huan

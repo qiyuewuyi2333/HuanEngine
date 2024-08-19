@@ -69,6 +69,7 @@ const glm::mat4& OrthogonalCamera::getViewProjectionMatrix() const
 }
 void OrthogonalCamera::updateViewMatrix()
 {
+    HUAN_PROFILE_FUNCTION();
     glm::mat4 transform = glm::translate(glm::mat4(1.0f), myPosition) *
 			glm::rotate(glm::mat4(1.0f), glm::radians(myRotate), glm::vec3(0, 0, 1));
     myViewMatrix = glm::inverse(transform);

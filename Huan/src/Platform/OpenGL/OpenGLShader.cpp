@@ -7,6 +7,7 @@ namespace Huan
 
 static GLenum shaderTypeFromString(const std::string& type)
 {
+    HUAN_PROFILE_FUNCTION();
     if (type == ".vert")
         return GL_VERTEX_SHADER;
     if (type == ".frag" || type == ".pixel")
@@ -18,12 +19,13 @@ static GLenum shaderTypeFromString(const std::string& type)
 
 OpenGLShader::OpenGLShader(const std::string& filepath)
 {
+    HUAN_PROFILE_FUNCTION();
     readFile(filepath);
     compile();
 }
 OpenGLShader::OpenGLShader(const std::string& vertexPath, const std::string& fragmentPath)
 {
-    // TODO
+    HUAN_PROFILE_FUNCTION();
     readFile(vertexPath);
     readFile(fragmentPath);
     compile();
@@ -31,7 +33,7 @@ OpenGLShader::OpenGLShader(const std::string& vertexPath, const std::string& fra
 
 void OpenGLShader::compile()
 {
-    // TODO
+    HUAN_PROFILE_FUNCTION();
     GLuint program = glCreateProgram();
     HUAN_CORE_ASSERT(program, "ERROR::SHADER::PROGRAM::COMPILATION_FAILED");
     HUAN_CORE_ASSERT(shaderSources.size() <= 2, "ERROR::SHADER::PROGRAM::TOO_MANY_SHADERS");
@@ -61,7 +63,8 @@ void OpenGLShader::compile()
 }
 void OpenGLShader::readFile(const std::string& filepath)
 {
-    // TODO
+    HUAN_PROFILE_FUNCTION();
+
     Ref<std::string> code;
     std::filesystem::path p(filepath);
     std::ifstream in(filepath, std::ios::in | std::ios::binary);
@@ -83,67 +86,81 @@ void OpenGLShader::readFile(const std::string& filepath)
 }
 void OpenGLShader::bind() const
 {
+    HUAN_PROFILE_FUNCTION();
     glUseProgram(myRendererID);
 }
 void OpenGLShader::unbind() const
 {
+    HUAN_PROFILE_FUNCTION();
     glUseProgram(0);
 }
 
 void OpenGLShader::setBool(const std::string& name, bool value) const
 {
+    HUAN_PROFILE_FUNCTION();
     glUniform1i(glGetUniformLocation(myRendererID, name.c_str()), (int)value);
 }
 // ------------------------------------------------------------------------
 void OpenGLShader::setInt(const std::string& name, int value) const
 {
+    HUAN_PROFILE_FUNCTION();
     glUniform1i(glGetUniformLocation(myRendererID, name.c_str()), value);
 }
 // ------------------------------------------------------------------------
 void OpenGLShader::setFloat(const std::string& name, float value) const
 {
+    HUAN_PROFILE_FUNCTION();
     glUniform1f(glGetUniformLocation(myRendererID, name.c_str()), value);
 }
 // ------------------------------------------------------------------------
 void OpenGLShader::setVec2(const std::string& name, const glm::vec2& value) const
 {
+    HUAN_PROFILE_FUNCTION();
     glUniform2fv(glGetUniformLocation(myRendererID, name.c_str()), 1, &value[0]);
 }
 void OpenGLShader::setVec2(const std::string& name, float x, float y) const
 {
+    HUAN_PROFILE_FUNCTION();
     glUniform2f(glGetUniformLocation(myRendererID, name.c_str()), x, y);
 }
 // ------------------------------------------------------------------------
 void OpenGLShader::setVec3(const std::string& name, const glm::vec3& value) const
 {
+    HUAN_PROFILE_FUNCTION();
     glUniform3fv(glGetUniformLocation(myRendererID, name.c_str()), 1, &value[0]);
 }
 void OpenGLShader::setVec3(const std::string& name, float x, float y, float z) const
 {
+    HUAN_PROFILE_FUNCTION();
     glUniform3f(glGetUniformLocation(myRendererID, name.c_str()), x, y, z);
 }
 // ------------------------------------------------------------------------
 void OpenGLShader::setVec4(const std::string& name, const glm::vec4& value) const
 {
+    HUAN_PROFILE_FUNCTION();
     glUniform4fv(glGetUniformLocation(myRendererID, name.c_str()), 1, &value[0]);
 }
 void OpenGLShader::setVec4(const std::string& name, float x, float y, float z, float w) const
 {
+    HUAN_PROFILE_FUNCTION();
     glUniform4f(glGetUniformLocation(myRendererID, name.c_str()), x, y, z, w);
 }
 // ------------------------------------------------------------------------
 void OpenGLShader::setMat2(const std::string& name, const glm::mat2& mat) const
 {
+    HUAN_PROFILE_FUNCTION();
     glUniformMatrix2fv(glGetUniformLocation(myRendererID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
 }
 // ------------------------------------------------------------------------
 void OpenGLShader::setMat3(const std::string& name, const glm::mat3& mat) const
 {
+    HUAN_PROFILE_FUNCTION();
     glUniformMatrix3fv(glGetUniformLocation(myRendererID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
 }
 // ------------------------------------------------------------------------
 void OpenGLShader::setMat4(const std::string& name, const glm::mat4& mat) const
 {
+    HUAN_PROFILE_FUNCTION();
     glUniformMatrix4fv(glGetUniformLocation(myRendererID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
 }
 
@@ -151,6 +168,7 @@ void OpenGLShader::setMat4(const std::string& name, const glm::mat4& mat) const
 // ------------------------------------------------------------------------
 void OpenGLShader::checkCompileErrors(GLuint shader, GLenum type)
 {
+    HUAN_PROFILE_FUNCTION();
     GLint success;
     GLchar infoLog[1024];
     if (type != GL_PROGRAM)

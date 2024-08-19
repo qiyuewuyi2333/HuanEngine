@@ -6,6 +6,7 @@ namespace Huan
 {
 OpenGLTexture2D::OpenGLTexture2D(const std::string& path) : myPath(path)
 {
+    HUAN_PROFILE_FUNCTION();
     int width, height, channels;
     stbi_set_flip_vertically_on_load(1);
 
@@ -46,6 +47,7 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path) : myPath(path)
 }
 OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height) : myWidth(width), myHeight(height)
 {
+    HUAN_PROFILE_FUNCTION();
     mySizedFormat = GL_RGBA8;
     myFormat = GL_RGBA;
 
@@ -60,16 +62,19 @@ OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height) : myWidth(widt
 }
 OpenGLTexture2D::~OpenGLTexture2D()
 {
+    HUAN_PROFILE_FUNCTION();
     glDeleteTextures(1, &myRendererID);
     HUAN_CORE_TRACE("Destroyed texture, ID: {0}, path: {1}", myRendererID, myPath);
 }
 void OpenGLTexture2D::bind(uint32_t slot) const
 {
+    HUAN_PROFILE_FUNCTION();
     glBindTextureUnit(slot, myRendererID);
     // HUAN_CORE_TRACE("Bind texture, ID: {0}, path: {1}, slot: {2}", myRendererID, myPath, slot);
 }
 void OpenGLTexture2D::setData(void* data, unsigned int size)
 {
+    HUAN_PROFILE_FUNCTION();
     uint32_t bpp = myFormat == GL_RGBA ? 4 : 3;
     HUAN_CORE_ASSERT(size == myWidth * myHeight * bpp, "Data must be entire texture");
     glTextureSubImage2D(myRendererID, 0, 0, 0, myWidth, myHeight, myFormat, GL_UNSIGNED_BYTE, data);

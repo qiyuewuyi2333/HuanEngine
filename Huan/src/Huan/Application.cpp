@@ -23,6 +23,7 @@ namespace Huan
 // Test function for capture the first image from rendering
 void captureAndSaveOpenGLImage(int width, int height)
 {
+    HUAN_PROFILE_FUNCTION();
     // 分配内存来存储屏幕像素
     std::vector<unsigned char> pixels(width * height * 3);
     glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
@@ -40,6 +41,7 @@ void captureAndSaveOpenGLImage(int width, int height)
 
 std::unordered_map<int, std::string> createKeycodeMap()
 {
+    HUAN_PROFILE_FUNCTION();
     std::unordered_map<int, std::string> keycodeMap;
 
     keycodeMap[HUAN_KEY_SPACE] = "HUAN_KEY_SPACE";
@@ -93,6 +95,7 @@ ImGuiContext* Application::imGuiContext = nullptr;
 
 Application::Application() : myLayerStack()
 {
+    HUAN_PROFILE_FUNCTION();
     HUAN_CORE_ASSERT(!instance, "Application already exists!")
     instance = this;
     Log::init();
@@ -108,10 +111,12 @@ Application::Application() : myLayerStack()
 
 Application::~Application()
 {
+    HUAN_PROFILE_FUNCTION();
 }
 
 void Application::run()
 {
+    HUAN_PROFILE_FUNCTION();
     const WindowResizeEvent e(1280, 720);
     bool first = true;
     if (e.isInCategory(EventCategory::EventCategoryApplication))
@@ -123,7 +128,6 @@ void Application::run()
             float time = (float)glfwGetTime();
             TimeStep timestep = time - myLastFrameTime;
             myLastFrameTime = time;
-            
 
             for (Layer* layer : myLayerStack)
                 layer->onUpdate(timestep);
@@ -146,8 +150,9 @@ void Application::run()
 
 void Application::onEvent(Event& e)
 {
+    HUAN_PROFILE_FUNCTION();
     EventDispatcher dispatcher(e);
-    
+
     dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FUNC(Application::onWindowClose));
     for (auto it = myLayerStack.end(); it != myLayerStack.begin();)
     {
@@ -160,18 +165,21 @@ void Application::onEvent(Event& e)
 
 bool Application::onWindowClose(WindowCloseEvent& e)
 {
+    HUAN_PROFILE_FUNCTION();
     isRunning = false;
     return true;
 }
 
 void Application::pushLayer(Layer* layer)
 {
+    HUAN_PROFILE_FUNCTION();
     myLayerStack.pushLayer(layer);
     layer->onAttach();
 }
 
 void Application::pushOverlay(Layer* layer)
 {
+    HUAN_PROFILE_FUNCTION();
     myLayerStack.pushOverlay(layer);
     layer->onAttach();
 }

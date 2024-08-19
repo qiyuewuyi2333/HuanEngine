@@ -18,6 +18,8 @@ OrthogonalCameraController::OrthogonalCameraController(float aspectRatio, bool r
 
 void OrthogonalCameraController::onUpdate(TimeStep timeStep)
 {
+    HUAN_PROFILE_FUNCTION();
+
     if (Huan::Input::isKeyPressed(HUAN_KEY_LEFT))
         myCamera->move({-timeStep, 0.0f, 0.0f});
     else if (Huan::Input::isKeyPressed(HUAN_KEY_RIGHT))
@@ -36,12 +38,14 @@ void OrthogonalCameraController::onUpdate(TimeStep timeStep)
 
 void OrthogonalCameraController::onEvent(Event& e)
 {
+    HUAN_PROFILE_FUNCTION();
     EventDispatcher dispatcher(e);
     dispatcher.dispatch<MouseScrolledEvent>(BIND_EVENT_FUNC(OrthogonalCameraController::onMouseScrolled));
     dispatcher.dispatch<WindowResizeEvent>(BIND_EVENT_FUNC(OrthogonalCameraController::onWindowResized));
 }
 bool OrthogonalCameraController::onMouseScrolled(MouseScrolledEvent& e)
 {
+    HUAN_PROFILE_FUNCTION();
     myZoomLevel -= e.getYOffset() * 0.25f;
     myZoomLevel = max(myZoomLevel, 0.25f);
     myCamera->setProjectionMatrix(-myAspectRatio * myZoomLevel, myAspectRatio * myZoomLevel, -myZoomLevel, myZoomLevel);
@@ -49,6 +53,7 @@ bool OrthogonalCameraController::onMouseScrolled(MouseScrolledEvent& e)
 }
 bool OrthogonalCameraController::onWindowResized(WindowResizeEvent& e)
 {
+    HUAN_PROFILE_FUNCTION();
     myAspectRatio = (float)e.getWidth() / (float)e.getHeight();
     myCamera->setProjectionMatrix(-myAspectRatio * myZoomLevel, myAspectRatio * myZoomLevel, -myZoomLevel, myZoomLevel);
     return false;

@@ -8,6 +8,7 @@ namespace Huan
 {
 static GLenum shaderTypeToGLType(const ShaderDataType& type)
 {
+    HUAN_PROFILE_FUNCTION();
     switch (type)
     {
     case ShaderDataType::Float:
@@ -39,21 +40,25 @@ static GLenum shaderTypeToGLType(const ShaderDataType& type)
 
 OpenGLVertexArray::OpenGLVertexArray()
 {
+    HUAN_PROFILE_FUNCTION();
     glCreateVertexArrays(1, &myRendererID);
     HUAN_CORE_TRACE("OpenGL VertexArray created, ID: {0}", myRendererID);
 }
 OpenGLVertexArray::~OpenGLVertexArray()
 {
+    HUAN_PROFILE_FUNCTION();
     glDeleteVertexArrays(1, &myRendererID);
     HUAN_CORE_TRACE("OpenGL VertexArray deleted, ID: {0}", myRendererID);
 }
 void OpenGLVertexArray::bind() const
 {
+    HUAN_PROFILE_FUNCTION();
     glBindVertexArray(myRendererID);
     // HUAN_CORE_TRACE("OpenGL VertexArray binded, ID: {0}", myRendererID);
 }
 void OpenGLVertexArray::unbind() const
 {
+    HUAN_PROFILE_FUNCTION();
     glBindVertexArray(0);
     // HUAN_CORE_TRACE("OpenGL VertexArray unbinded, ID: {0}", myRendererID);
 }
@@ -64,6 +69,7 @@ void OpenGLVertexArray::unbind() const
  */
 void OpenGLVertexArray::addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 {
+    HUAN_PROFILE_FUNCTION();
     HUAN_CORE_ASSERT(vertexBuffer->getLayout().getElements().size(), "VertexBuffer has no layout!");
     bind();
     vertexBuffer->bind();
@@ -82,6 +88,7 @@ void OpenGLVertexArray::addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 }
 void OpenGLVertexArray::setIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
 {
+    HUAN_PROFILE_FUNCTION();
     myIndexBuffer = indexBuffer;
     HUAN_CORE_TRACE("OpenGL VertexArray, ID: {0} set IndexBuffer, ID: {1}", myRendererID,
                     indexBuffer->getMyRendererID());
