@@ -29,4 +29,5 @@ class Sandbox2D : public Huan::Layer
     Huan::Ref<Huan::Quad2D> myQuad2D;
     Huan::Ref<Huan::Quad2D> myQuad2DTex;
     Huan::Ref<Huan::Texture> myCheckboardTexture;
+
 };

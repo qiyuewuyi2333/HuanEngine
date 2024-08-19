@@ -12,10 +12,19 @@
 #include <unordered_map>
 #include <array>
 #include <filesystem>
+#include <thread>
+
+#include "DebugTools/Instrumentor.h"
 
 #include "spdlog/spdlog.h"
+
+// glm
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include <glm/gtc/type_ptr.hpp>
+
+// ImGui
+#include "imgui.h"
 
 #ifdef HUAN_PLATFORM_WINDOWS
 #include <Windows.h>
