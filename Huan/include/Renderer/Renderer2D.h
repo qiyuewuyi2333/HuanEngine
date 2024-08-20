@@ -5,9 +5,12 @@
 #include "Huan/Core.h"
 #include "Primitives/Color.h"
 #include "Texture/Texture2D.h"
+#include "Primitives/PrimitiveProperty.h"
 
 namespace Huan
 {
+
+
 
 struct Renderer2DData
 {
@@ -15,7 +18,6 @@ struct Renderer2DData
     Ref<VertexArray>    quadVertexArray;
     Ref<VertexArray>    quadTextureVertexArray;
     Ref<Shader>         quadTextureShader;
-    Ref<Texture>        myTexture;
     Ref<Texture>        myWhiteTexture;
 };
 
@@ -36,15 +38,16 @@ public:
     void shutdown();
 
     void loadScene(Ref<Scene> scene);
+    void loadCamera(Ref<Camera> camera);
     void beginScene();
     void renderScene();
     void endScene();
     void setScene(Ref<Scene> scene);
     // primitives
-    void drawQuad(const glm::vec2& position, const glm::vec2& size, const Color& color);
-    void drawQuad(const glm::vec3& position, const glm::vec2& size, const Color& color);
-    void drawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture>& texture);
-    void drawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture>& texture);
+
+    void drawQuad(const QuadProperty& quadProperty);
+    void drawTriangle(const TriangleProperty& triangleProperty);
+    void drawCircle(const CircleProperty& circleProperty);
 
     // get
     const Scope<RenderCommand>& getRenderCommand() const;

@@ -43,7 +43,7 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path) : myPath(path)
     glTextureSubImage2D(myRendererID, 0, 0, 0, myWidth, myHeight, myFormat, GL_UNSIGNED_BYTE, data);
     stbi_image_free(data);
     glGenerateTextureMipmap(myRendererID);
-    HUAN_CORE_TRACE("Loaded image {0} with width {1} and height {2}", path, width, height);
+    HUAN_CORE_TRACE("Create texture from {0} with width {1} and height {2}, ID: {3}", path, width, height, myRendererID);
 }
 OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height) : myWidth(width), myHeight(height)
 {
@@ -59,6 +59,7 @@ OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height) : myWidth(widt
 
     glTextureParameteri(myRendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTextureParameteri(myRendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    HUAN_CORE_TRACE("Create texture from null with width {0} and height {1}, ID: {2}", width, height, myRendererID);
 }
 OpenGLTexture2D::~OpenGLTexture2D()
 {

@@ -26,8 +26,11 @@ class Sandbox2D : public Huan::Layer
     // Temp
     Huan::Ref<Huan::Scene> myScene;
     Huan::Ref<Huan::Shader> myFlatColorShader;
-    Huan::Ref<Huan::Quad2D> myQuad2D;
-    Huan::Ref<Huan::Quad2D> myQuad2DTex;
     Huan::Ref<Huan::Texture> myCheckboardTexture;
+    Huan::Ref<Huan::Texture> myLogoTexture;
+
+    Huan::QuadProperty myCheckboard;
+    Huan::QuadProperty myColorQuad;
+    Huan::QuadProperty myLogoQuad;
 
 };

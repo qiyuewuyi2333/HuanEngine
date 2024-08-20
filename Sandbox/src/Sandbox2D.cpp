@@ -9,18 +9,40 @@ Sandbox2D::Sandbox2D()
 void Sandbox2D::onAttach()
 {
     HUAN_PROFILE_FUNCTION();
+
     // shader
     myScene = std::make_shared<Huan::Scene>(nullptr, myCameraController.getCamera());
     myScene->uColor = std::make_shared<glm::vec4>(1.0f);
-    myScene->loadTexture("../../../../Assets/Textures/logo.png");
+    // myScene->loadTexture("../../../../Assets/Textures/logo.png");
 
+    // texture
     myCheckboardTexture = std::make_shared<Huan::CurrentTexture2D>("../../../../Assets/Textures/Checkerboard.png");
-    myRenderer.loadScene(myScene);
+    myLogoTexture = std::make_shared<Huan::CurrentTexture2D>("../../../../Assets/Textures/logo.png");
 
-    myQuad2D = std::make_shared<Huan::Quad2D>(Huan::Point2D{0.0f, 0.0f}, glm::vec2{1.0f, 1.0f},
-                                              Huan::Color(1.0f, 0.834f, 0.0f, 0.3f));
-    myQuad2DTex = std::make_shared<Huan::Quad2D>(Huan::Point2D{2.0f, 0.0f}, glm::vec2{1.0f, 1.0f},
-                                                 Huan::Color(1.0f, 0.0f, 1.0f, 0.5f));
+    // camera
+    myRenderer.loadCamera(myCameraController.getCamera());
+
+
+    myCheckboard = {.position = {0.0f,0.0f,-0.1f},
+                    .color = {1.0f, 1.0f, 1.0f, 1.0f},
+                    .size = {10.0f, 10.0f},
+                    .rotation = {0.0f, 0.0f, 0.0f},
+                    .texture = myCheckboardTexture,
+                    .tilingFactor = 10.0f};
+
+    myColorQuad =  {.position = {-2.0f,0.0f, 0.0f},
+                    .color = {1.0f, 0.834f, 0.0f, 0.3f},
+                    .size = {1.0f, 1.0f},
+                    .rotation = {0.0f, 0.0f, 0.0f},
+                    .texture = nullptr,
+                    .tilingFactor = 1.0f};
+
+    myLogoQuad =  {.position = {2.0f,0.0f, 0.0f},
+                    .color = {1.0f, 1.0f, 1.0f, 1.0f},
+                    .size = {1.0f, 1.0f},
+                    .rotation = {0.0f, 0.0f, 0.0f},
+                    .texture = myLogoTexture,
+                    .tilingFactor = 1.0f};
 }
 
 void Sandbox2D::onDetach()
@@ -43,11 +65,10 @@ void Sandbox2D::onUpdate(Huan::TimeStep ts)
         myRenderer.getRenderCommand()->clear();
         myRenderer.beginScene();
         // first render the opaque object
-        myRenderer.drawQuad(glm::vec3(myQuad2DTex->myCenterPostion.x, myQuad2DTex->myCenterPostion.y, -0.1f),
-                            myQuad2DTex->mySideLength * 10.0f, myCheckboardTexture);
-        myRenderer.drawQuad(myQuad2D->myCenterPostion, myQuad2D->mySideLength, myQuad2D->myColor);
+        myRenderer.drawQuad(myCheckboard);
+        myRenderer.drawQuad(myColorQuad);
         // second render the transparent object
-        myRenderer.drawQuad(myQuad2DTex->myCenterPostion, myQuad2DTex->mySideLength, myScene->getTexture());
+        myRenderer.drawQuad(myLogoQuad);
 
         myRenderer.endScene();
     }
@@ -57,7 +78,7 @@ void Sandbox2D::onImGuiRender()
 {
     HUAN_PROFILE_FUNCTION();
     ImGui::Begin("Settings");
-    ImGui::ColorEdit4("Square Color", glm::value_ptr(myQuad2D->myColor.myColorValue));
+    ImGui::ColorEdit4("Square Color", glm::value_ptr(myColorQuad.color));
     ImGui::End();
 }
 

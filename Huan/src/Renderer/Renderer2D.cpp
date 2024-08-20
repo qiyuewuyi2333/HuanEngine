@@ -1,6 +1,8 @@
 #include "Renderer/Renderer2D.h"
 
+#include "Huan/Core.h"
 #include "Renderer/RendererConfig.h"
+#include "Renderer/Utils/Camera.h"
 
 namespace Huan
 {
@@ -67,12 +69,14 @@ void Renderer2D::loadScene(Ref<Scene> scene)
 {
     myScene = scene;
     myData->camera = myScene->getCamera();
-    myData->myTexture = myScene->getTexture();
 }
-
+void Renderer2D::loadCamera(Ref<Camera> camera)
+{
+    myData->camera = camera;
+}
 void Renderer2D::beginScene()
 {
-    HUAN_CORE_ASSERT((myScene != nullptr), "The scene of Renderer2D hasn't been loaded!");
+    // HUAN_CORE_ASSERT((myScene != nullptr), "The scene of Renderer2D hasn't been loaded!");
 
     myData->quadTextureShader->bind();
     myData->quadTextureShader->setMat4("u_ViewProjection", myData->camera->getViewProjectionMatrix());
@@ -97,39 +101,38 @@ void Renderer2D::setScene(Ref<Scene> scene)
     myScene = scene;
 }
 
-void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const Color& color)
-{
-    drawQuad({position.x, position.y, 0.0f}, size, color);
-}
 
-void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const Color& color)
+
+
+void Renderer2D::drawQuad(const QuadProperty& quadProperty)
 {
     myData->quadTextureShader->bind();
-    myData->quadTextureShader->setVec4("u_Color", color.myColorValue);
-    glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
-    myData->quadTextureShader->setMat4("u_Transform", transform);
-    myData->myWhiteTexture->bind();
-
-    myData->quadVertexArray->bind();
-    myRenderCommand->drawIndexed(*myData->quadVertexArray);
-}
-
-void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture>& texture)
-{
-    drawQuad({position.x, position.y, 0.0f}, size, texture);
-}
-
-void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture>& texture)
-{
-    myData->quadTextureShader->bind();
-    myData->quadTextureShader->setVec4("u_Color", glm::vec4(1.0f));
+    // myData->quadTextureShader->setInt("u_Texture", 0);
+    myData->quadTextureShader->setVec4("u_Color", quadProperty.color);
     glm::mat4 transform =
-        glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+        glm::translate(glm::mat4(1.0f), quadProperty.position) * glm::scale(glm::mat4(1.0f), {quadProperty.size.x, quadProperty.size.y, 1.0f}) * glm::rotate(glm::mat4(1.0f), glm::radians(quadProperty.rotation.z), {0.0f, 0.0f, 1.0f}) * glm::rotate(glm::mat4(1.0f), glm::radians(quadProperty.rotation.y), {0.0f, 1.0f, 0.0f}) * glm::rotate(glm::mat4(1.0f), glm::radians(quadProperty.rotation.x), {1.0f, 0.0f, 0.0f});
+
     myData->quadTextureShader->setMat4("u_Transform", transform);
-    texture->bind();
+    myData->quadTextureShader->setFloat("u_TilingFactor", quadProperty.tilingFactor);
+    if (quadProperty.texture)
+        quadProperty.texture->bind();
+    else
+        myData->myWhiteTexture->bind();
 
     myData->quadTextureVertexArray->bind();
     myRenderCommand->drawIndexed(*myData->quadTextureVertexArray);
+}
+
+void Renderer2D::drawCircle(const CircleProperty& circleProperty)
+{
+    // TODO : Implement circle VA
+    HUAN_CORE_ASSERT(false, "Not implemented yet!");
+}
+
+void Renderer2D::drawTriangle(const TriangleProperty& triangleProperty)
+{
+    // TODO : Implement triangle VA
+    HUAN_CORE_ASSERT(false, "Not implemented yet!");
 }
 
 const Scope<RenderCommand>& Renderer2D::getRenderCommand() const
