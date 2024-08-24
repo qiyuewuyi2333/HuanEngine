@@ -1,7 +1,7 @@
 #include "interface/Huan.h"
 #include "SandboxApp.h"
 #include "ExampleLayer.h"
-#include "Sandbox2D.h"
+#include "Sandbox.h"
 
 Huan::Application* Huan::createApplication()
 {
@@ -11,7 +11,7 @@ Huan::Application* Huan::createApplication()
 
 SandboxApp::SandboxApp()
 {
-	this->pushLayer(new Sandbox2D());
+	this->pushLayer(new Sandbox());
 }
 
 SandboxApp::~SandboxApp()

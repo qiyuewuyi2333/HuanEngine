@@ -75,6 +75,7 @@ class HUAN_API BufferLayout
     BufferLayout(const std::initializer_list<BufferLayoutElement>& elements);
     const std::vector<BufferLayoutElement>& getElements() const;
     uint32_t getStride() const;
+    uint32_t getNumber() const;
 
     std::vector<BufferLayoutElement>::iterator begin();
     std::vector<BufferLayoutElement>::iterator end();
@@ -86,5 +87,6 @@ class HUAN_API BufferLayout
   private:
     std::vector<BufferLayoutElement> myElements;
     uint32_t myStride = 0;
+    uint32_t myLayoutVertexNumber = 0;
 };
 } // namespace Huan

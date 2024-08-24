@@ -11,8 +11,10 @@ class OpenGLRendererAPI : public RendererAPI
     virtual void init() override;
     virtual void setClearColor(const glm::vec4& color) override;
     virtual void clear() override;
+    virtual void draw(const VertexArray& vertexArray) override;
     virtual void drawIndexed(const VertexArray& vertexArray) override;
     virtual void enableBlend() override;
     virtual void enableDepthTest() override;
+    virtual void setCursorMode(uint32_t mode) override;
 };
 } // namespace Huan

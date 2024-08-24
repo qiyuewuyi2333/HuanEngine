@@ -18,10 +18,12 @@ class HUAN_API OpenGLVertexBuffer : public VertexBuffer
     constexpr const BufferLayout& getLayout() const override;
     constexpr uint32_t getCount() const override;
     constexpr uint32_t getMyRendererID() const override;
+    constexpr uint32_t getMyVertexNumber() const override;
 
   private:
     uint32_t myRendererID;
     uint32_t myCount;
+    uint32_t myVertexNumber;
     BufferLayout myLayout;
 };
 } // namespace Huan

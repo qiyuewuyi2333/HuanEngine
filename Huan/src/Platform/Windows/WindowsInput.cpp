@@ -43,5 +43,19 @@ namespace Huan
 		auto [x, y] = getMousePositionImpl();
 		return y;
 	}
+    void WindowsInput::setCursorModeImpl(uint32_t mode)
+    {
+        switch (mode)
+        {
+        case 0:
+            glfwSetInputMode(static_cast<GLFWwindow*>(Application::getInstance()->getWindow().getNativeWindow()), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            break;
+        case 1:
+            glfwSetInputMode(static_cast<GLFWwindow*>(Application::getInstance()->getWindow().getNativeWindow()), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            break;
+        default:
+            break;
+        }
+    }
 
 }

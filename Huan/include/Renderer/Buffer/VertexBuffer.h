@@ -12,6 +12,7 @@ class VertexBuffer
     virtual void setData(const void* data, uint32_t size) = 0;
     virtual constexpr uint32_t getCount() const = 0;
     virtual constexpr uint32_t getMyRendererID() const = 0;
+    virtual constexpr uint32_t getMyVertexNumber() const = 0;
 
     virtual void setLayout(const BufferLayout& layout) = 0;
     virtual constexpr const BufferLayout& getLayout() const = 0;

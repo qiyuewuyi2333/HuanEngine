@@ -105,4 +105,14 @@ const Ref<IndexBuffer>& OpenGLVertexArray::getIndexBuffer() const
 {
     return myIndexBuffer;
 }
+/**
+ * @brief return the the first vb of va 's vertex number 
+ * 
+ * @return constexpr uint32_t 
+ */
+constexpr uint32_t OpenGLVertexArray::getVertexBufferCount() const
+{
+    HUAN_CORE_ASSERT((myVertexBuffers.size() == 1), "Get count function just could be used when there is only one vertexBuffer")
+    return myVertexBuffers.begin()->get()->getMyVertexNumber();
+}   
 } // namespace Huan

@@ -1,6 +1,7 @@
 #include "Renderer/RenderCommand.h"
 #include "Renderer/RendererConfig.h"
 #include "Renderer/VertexArray.h"
+#include <cstdint>
 
 namespace Huan
 {
@@ -23,7 +24,10 @@ void RenderCommand::clear()
 {
     myRendererAPI->clear();
 }
-
+void RenderCommand::draw(const VertexArray& vertexArray)
+{
+    myRendererAPI->draw(vertexArray);
+}
 void RenderCommand::drawIndexed(const VertexArray& vertexArray)
 {
     myRendererAPI->drawIndexed(vertexArray);
@@ -35,5 +39,9 @@ void RenderCommand::enableBlend()
 void RenderCommand::enableDepthTest()
 {
     myRendererAPI->enableDepthTest();
+}
+void RenderCommand::setCursorMode(uint32_t mode)
+{
+    myRendererAPI->setCursorMode(mode);
 }
 } // namespace Huan

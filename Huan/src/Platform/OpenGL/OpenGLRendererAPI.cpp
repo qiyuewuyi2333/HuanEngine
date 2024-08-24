@@ -1,6 +1,7 @@
 #include "Platform/OpenGL/OpenGLRendererAPI.h"
 #include "Renderer/VertexArray.h"
 #include "glad/glad.h"
+#include <cstdint>
 
 namespace Huan
 {
@@ -22,6 +23,12 @@ void OpenGLRendererAPI::clear()
     HUAN_PROFILE_FUNCTION();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
+void OpenGLRendererAPI::draw(const VertexArray& vertexArray)
+{
+    HUAN_PROFILE_FUNCTION();
+    glDrawArrays(GL_TRIANGLES, 0, vertexArray.getVertexBufferCount());
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
 void OpenGLRendererAPI::drawIndexed(const VertexArray& vertexArray)
 {
     HUAN_PROFILE_FUNCTION();
@@ -39,5 +46,21 @@ void OpenGLRendererAPI::enableDepthTest()
 {
     HUAN_PROFILE_FUNCTION();
     glEnable(GL_DEPTH_TEST);
+}
+void OpenGLRendererAPI::setCursorMode(uint32_t mode)
+{
+    HUAN_PROFILE_FUNCTION();
+    switch (mode)
+    {
+    case 0:
+        glfwSetInputMode(glfwGetCurrentContext(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        break;
+    case 1:
+        glfwSetInputMode(glfwGetCurrentContext(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        break;
+    default:
+        HUAN_CORE_ASSERT(false, "Invalid cursor mode");
+        break;
+    }
 }
 } // namespace Huan

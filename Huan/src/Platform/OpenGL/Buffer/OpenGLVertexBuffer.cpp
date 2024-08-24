@@ -56,6 +56,7 @@ void OpenGLVertexBuffer::setData(const void* data, uint32_t size)
  */
 void OpenGLVertexBuffer::setLayout(const BufferLayout& layout)
 {
+    myVertexNumber = myCount / layout.getNumber();
     myLayout = layout;
 }
 /**
@@ -80,4 +81,9 @@ constexpr uint32_t OpenGLVertexBuffer::getMyRendererID() const
 {
     return myRendererID;
 }
+constexpr uint32_t OpenGLVertexBuffer::getMyVertexNumber() const
+{
+    return myVertexNumber;
+}
+
 } // namespace Huan

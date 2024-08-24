@@ -17,8 +17,8 @@ class HUAN_API OpenGLVertexArray : public VertexArray
 
     virtual const std::vector<Ref<VertexBuffer>>& getVertexBuffers() const override;
     virtual const Ref<IndexBuffer>& getIndexBuffer() const override;
-
     virtual constexpr uint32_t getMyRendererID() const override;
+    virtual constexpr uint32_t getVertexBufferCount() const override;
 
   private:
     uint32_t myRendererID;

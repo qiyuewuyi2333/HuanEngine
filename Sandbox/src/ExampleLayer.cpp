@@ -123,14 +123,6 @@ void ExampleLayer::onUpdate(Huan::TimeStep timeStep)
     
     myCameraController->onUpdate(timeStep);
     
-    myRenderer.getMyRenderCommand()->setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
-    myRenderer.getMyRenderCommand()->clear();
-
-    myRenderer.render(shader,  *myScene1);
-    myRenderer.render(shader2, *myScene4);
-    
-    myRenderer.render(shader,  *myScene3);
-    myRenderer.render(shader,  *myScene2);
 }
 void ExampleLayer::onImGuiRender()
 {

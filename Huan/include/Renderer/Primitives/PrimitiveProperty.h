@@ -39,4 +39,15 @@ struct CircleProperty
     float thickness;
     float fade;
 };
+
+struct CuboidProperty
+{
+    glm::vec3 position;
+    glm::vec4 color;
+    glm::vec3 size;
+    glm::vec3 rotation;
+    Ref<Texture> texture;
+    float tilingFactor;
+
+};
 } // namespace Huan

@@ -13,6 +13,6 @@ namespace Huan
 		virtual std::pair<float, float> getMousePositionImpl() const override;
 		virtual float getMouseXImpl() const override;
 		virtual float getMouseYImpl() const override;
-
+        virtual void setCursorModeImpl(uint32_t mode) override;
 	};
 }
