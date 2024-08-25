@@ -8,6 +8,7 @@
     #include "Platform/OpenGL/OpenGLRendererAPI.h"
     #include "Platform/OpenGL/OpenGLShader.h"
     #include "Platform/OpenGL/Texture/OpenGLTexture2D.h"
+    #include "Platform/OpenGL/Material/OpenGLMaterial.h"
     // #include "OpenGLBuffer.h"
     namespace Huan {
         using CurrentVertexBuffer =  OpenGLVertexBuffer;
@@ -16,6 +17,7 @@
         using CurrentRendererAPI  =  OpenGLRendererAPI;
         using CurrentShader       =  OpenGLShader;
         using CurrentTexture2D    =  OpenGLTexture2D;
+        using CurrentMaterial     =  OpenGLMaterial;
     }
 #elif defined(HUAN_USING_VULKAN)
     // #include "VulkanBuffer.h"

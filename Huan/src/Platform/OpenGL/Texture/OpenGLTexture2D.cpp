@@ -12,47 +12,50 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path) : myPath(path)
 
     stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
     HUAN_CORE_ASSERT(data, "Failed to load image");
-    myWidth = width;
-    myHeight = height;
+    myProperty->width = width;
+    myProperty->height = height;
     switch (channels)
     {
     case 1:
-        myFormat = GL_R;
-        mySizedFormat = GL_R8;
+        myProperty->format = GL_R;
+        myProperty->internalFormat = GL_R8;
         break;
     case 3:
-        myFormat = GL_RGB;
-        mySizedFormat = GL_RGB8;
+        myProperty->format = GL_RGB;
+        myProperty->internalFormat = GL_RGB8;
         break;
     case 4:
-        myFormat = GL_RGBA;
-        mySizedFormat = GL_RGBA8;
+        myProperty->format = GL_RGBA;
+        myProperty->internalFormat = GL_RGBA8;
         break;
     default:
         HUAN_CORE_ASSERT(false, "Unsupported format");
     }
 
     glCreateTextures(GL_TEXTURE_2D, 1, &myRendererID);
-    glTextureStorage2D(myRendererID, 1, mySizedFormat, myWidth, myHeight);
+    glTextureStorage2D(myRendererID, 1, myProperty->internalFormat, myProperty->width, myProperty->height);
 
     glTextureParameteri(myRendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTextureParameteri(myRendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTextureParameteri(myRendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTextureParameteri(myRendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-    glTextureSubImage2D(myRendererID, 0, 0, 0, myWidth, myHeight, myFormat, GL_UNSIGNED_BYTE, data);
+    glTextureSubImage2D(myRendererID, 0, 0, 0, myProperty->width, myProperty->height, myProperty->format, GL_UNSIGNED_BYTE, data);
     stbi_image_free(data);
     glGenerateTextureMipmap(myRendererID);
     HUAN_CORE_TRACE("Create texture from {0} with width {1} and height {2}, ID: {3}", path, width, height, myRendererID);
 }
-OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height) : myWidth(width), myHeight(height)
+OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
 {
     HUAN_PROFILE_FUNCTION();
-    mySizedFormat = GL_RGBA8;
-    myFormat = GL_RGBA;
+    myProperty->width = width;
+    myProperty->height = height;
+
+    myProperty->internalFormat = GL_RGBA8;
+    myProperty->format = GL_RGBA;
 
     glCreateTextures(GL_TEXTURE_2D, 1, &myRendererID);
-    glTextureStorage2D(myRendererID, 1, mySizedFormat, myWidth, myHeight);
+    glTextureStorage2D(myRendererID, 1, myProperty->internalFormat, myProperty->width, myProperty->height);
 
     glTextureParameteri(myRendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTextureParameteri(myRendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -76,8 +79,8 @@ void OpenGLTexture2D::bind(uint32_t slot) const
 void OpenGLTexture2D::setData(void* data, unsigned int size)
 {
     HUAN_PROFILE_FUNCTION();
-    uint32_t bpp = myFormat == GL_RGBA ? 4 : 3;
-    HUAN_CORE_ASSERT(size == myWidth * myHeight * bpp, "Data must be entire texture");
-    glTextureSubImage2D(myRendererID, 0, 0, 0, myWidth, myHeight, myFormat, GL_UNSIGNED_BYTE, data);
+    uint32_t bpp = myProperty->format == GL_RGBA ? 4 : 3;
+    HUAN_CORE_ASSERT(size == myProperty->width * myProperty->height * bpp, "Data must be entire texture");
+    glTextureSubImage2D(myRendererID, 0, 0, 0, myProperty->width, myProperty->height, myProperty->format, GL_UNSIGNED_BYTE, data);
 }
 } // namespace Huan

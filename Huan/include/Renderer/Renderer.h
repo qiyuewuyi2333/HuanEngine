@@ -2,6 +2,7 @@
 #include "HuanPCH.h"
 #include "Primitives/PrimitiveProperty.h"
 #include "RenderCommand.h"
+#include "Renderer/Material/Material.h"
 #include "Renderer/Shader.h"
 #include "Renderer/Scene.h"
 #include "Renderer/Utils/PerspectiveCamera.h"
@@ -22,9 +23,8 @@ struct Renderer3DData
     // resource
     Ref<PerspectiveCamera> myPerspectiveCamera;
     Ref<OrthogonalCamera> myOrthogonalCamera;
-    Ref<Shader> myCuboidTextureShader;
     Ref<VertexArray> myCuboidVertexArray;
-    Ref<Texture> myWhiteTexture;
+    Ref<Material> myBaseMaterial;  
 
     const glm::mat4& getCameraMatrix()
     {
@@ -47,6 +47,7 @@ public:
     void shutdown();
 
     void loadScene(Ref<Scene> scene);
+    void loadMaterial();
     void loadOrthogonalCamera(Ref<OrthogonalCamera> camera);
     void loadPerspectiveCamera(Ref<PerspectiveCamera> camera);
     void beginScene();

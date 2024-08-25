@@ -11,7 +11,6 @@ void Sandbox::onAttach()
     HUAN_PROFILE_FUNCTION();
 
     myLogoTexture = std::make_shared<Huan::CurrentTexture2D>("../../../../Assets/Textures/logo.png");
-
     myRenderer.loadPerspectiveCamera(myCameraController.getPerspectiveCamera());
 
     myLogoCuboidProperty = {.position = {0.0f, 0.0f, 0.0f},

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Layer/Layer.h"
+#include "Renderer/Material/Material.h"
 #include "Renderer/Primitives/PrimitiveProperty.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/Scene.h"
@@ -33,6 +34,5 @@ public:
     Huan::Ref<Huan::Texture> myLogoTexture;
 
     Huan::CuboidProperty myLogoCuboidProperty;
-
 
 };
