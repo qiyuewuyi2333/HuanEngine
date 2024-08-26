@@ -13,9 +13,10 @@ Renderer::Renderer()
 void Renderer::loadMaterial()
 {
     Ref<Shader> myBaseMaterialShader =
-        std::make_shared<CurrentShader>("../../../../Assets/Shaders/cube_texture/cube_texture.vert",
-                                        "../../../../Assets/Shaders/cube_texture/cube_texture.frag");
+        std::make_shared<CurrentShader>(myData->cuboidVertShader, myData->metalFragShader);
+
     Ref<Texture> myWhiteTexture = std::make_shared<CurrentTexture2D>(1, 1);
+    
     uint32_t whiteTextureData = 0xffffffff;
     myWhiteTexture->setData(&whiteTextureData, sizeof(uint32_t));
 
@@ -23,6 +24,11 @@ void Renderer::loadMaterial()
     myData->myBaseMaterial->setShader(myBaseMaterialShader);
     myData->myBaseMaterial->setTexture("Pure White", myWhiteTexture);
 
+}
+void Renderer::loadSingleShader()
+{
+    myData->cuboidVertShader = std::make_shared<CurrentShader>("../../../../Assets/Shaders/cube_texture/cube_texture.vert");
+    myData->metalFragShader = std::make_shared<CurrentShader>("../../../../Assets/Shaders/metal/metal.frag");
 }
 
 void Renderer::init()
@@ -32,6 +38,8 @@ void Renderer::init()
     // You don't need to create camera here, just move the power to
     // app layer, and load from it
 
+    // load shader
+    loadSingleShader();
     // load material
     loadMaterial();
 

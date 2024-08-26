@@ -32,6 +32,7 @@ public:
     Huan::Ref<Huan::Shader> myFlatColorShader;
     Huan::Ref<Huan::Texture> myCheckboardTexture;
     Huan::Ref<Huan::Texture> myLogoTexture;
+    Huan::Ref<Huan::Texture> myMetalTexture;
 
     Huan::CuboidProperty myLogoCuboidProperty;
 

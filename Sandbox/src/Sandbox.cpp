@@ -11,13 +11,14 @@ void Sandbox::onAttach()
     HUAN_PROFILE_FUNCTION();
 
     myLogoTexture = std::make_shared<Huan::CurrentTexture2D>("../../../../Assets/Textures/logo.png");
+    myMetalTexture = std::make_shared<Huan::CurrentTexture2D>("../../../../Assets/Textures/Metal/Metal_Color.png");
     myRenderer.loadPerspectiveCamera(myCameraController.getPerspectiveCamera());
 
     myLogoCuboidProperty = {.position = {0.0f, 0.0f, 0.0f},
                             .color = {1.0f, 1.0f, 1.0f, 1.0f},
                             .size = {1.0f, 1.0f, 1.0f},
                             .rotation = {0.0f, 0.0f, 0.0f},
-                            .texture = myLogoTexture,
+                            .texture = myMetalTexture,
                             .tilingFactor = 1.0f};
 }
 

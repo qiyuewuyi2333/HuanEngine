@@ -23,17 +23,21 @@ struct Renderer3DData
     // resource
     Ref<PerspectiveCamera> myPerspectiveCamera;
     Ref<OrthogonalCamera> myOrthogonalCamera;
+    Ref<Shader> cuboidVertShader;
+    Ref<Shader> metalFragShader;
     Ref<VertexArray> myCuboidVertexArray;
-    Ref<Material> myBaseMaterial;  
+    Ref<Material> myBaseMaterial;
+    Ref<Material> myMetalMaterial;
 
     const glm::mat4& getCameraMatrix()
     {
-        return myIsUsingMyPerspectiveCamera ? myPerspectiveCamera->getProjectionViewMatrix() : myOrthogonalCamera->getViewProjectionMatrix();
+        return myIsUsingMyPerspectiveCamera ? myPerspectiveCamera->getProjectionViewMatrix()
+                                            : myOrthogonalCamera->getViewProjectionMatrix();
     }
 };
 class HUAN_API Renderer
 {
-public:
+  public:
     static Renderer& getInstance()
     {
         static Renderer instance;
@@ -44,10 +48,10 @@ public:
     Renderer(const Renderer&) = delete;
 
     void init();
+
     void shutdown();
 
     void loadScene(Ref<Scene> scene);
-    void loadMaterial();
     void loadOrthogonalCamera(Ref<OrthogonalCamera> camera);
     void loadPerspectiveCamera(Ref<PerspectiveCamera> camera);
     void beginScene();
@@ -58,6 +62,11 @@ public:
     void drawCuboid(const CuboidProperty& cuboidProperty);
     // get
     const Scope<RenderCommand>& getRenderCommand() const;
+
+  private:
+    void loadMaterial();
+    void loadSingleShader();
+
   private:
     Scope<RenderCommand> myRenderCommand;
     // You might have many renderer to render one same scene
