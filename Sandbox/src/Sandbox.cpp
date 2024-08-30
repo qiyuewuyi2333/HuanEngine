@@ -29,28 +29,31 @@ void Sandbox::onDetach()
 
 void Sandbox::onUpdate(Huan::TimeStep ts)
 {
-    HUAN_PROFILE_FUNCTION();
     // update
+    myCameraController.onUpdate(ts);
+    // render
+    myRenderer.getRenderCommand()->setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
+    myRenderer.getRenderCommand()->clear();
+    myRenderer.beginScene();
+    for (int i = 0; i < 20; i++)
     {
-        HUAN_PROFILE_SCOPE("CameraController::onUpdate");
-        myCameraController.onUpdate(ts);
+        myLogoCuboidProperty.position.x = i - 10;
+        for (int j = 0; j < 20; j++)
+        {
+            myLogoCuboidProperty.position.y = j - 10;
+            myRenderer.drawCuboid(myLogoCuboidProperty);
+        }
     }
-    {
-        HUAN_PROFILE_SCOPE("Sandbox::render");
-        // render
-        myRenderer.getRenderCommand()->setClearColor({0.1f, 0.1f, 0.1f, 1.0f});
-        myRenderer.getRenderCommand()->clear();
-        myRenderer.beginScene();
-        myRenderer.drawCuboid(myLogoCuboidProperty);
-        myRenderer.endScene();
-    }
+    myRenderer.endScene();
 }
 void Sandbox::onImGuiRender()
 {
     HUAN_PROFILE_FUNCTION();
     ImGui::Begin("Settings");
     ImGui::SliderFloat3("Cuboid position", glm::value_ptr(myLogoCuboidProperty.position), -10.0f, 10.0f);
-    ImGui::Text("Camera front: %f, %f, %f", myCameraController.getPerspectiveCamera()->getFront().x, myCameraController.getPerspectiveCamera()->getFront().y, myCameraController.getPerspectiveCamera()->getFront().z);
+    ImGui::Text("Camera front: %f, %f, %f", myCameraController.getPerspectiveCamera()->getFront().x,
+                myCameraController.getPerspectiveCamera()->getFront().y,
+                myCameraController.getPerspectiveCamera()->getFront().z);
     ImGui::End();
 }
 void Sandbox::onEvent(Huan::Event& e)

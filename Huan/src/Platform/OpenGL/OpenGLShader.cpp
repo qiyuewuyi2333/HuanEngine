@@ -118,7 +118,6 @@ void OpenGLShader::link(std::vector<unsigned int>& shaders)
     myName = "Pipeline";
 }
 
-
 /**
  * @brief Compile all shader source has read from files, and return a vector of shader IDs
  *
@@ -180,9 +179,9 @@ void OpenGLShader::checkCompileErrors(GLuint shader, GLenum type)
         if (!success)
         {
             glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-            HUAN_CORE_ERROR("ERROR::SHADER_COMPILATION_ERROR of type: {}\n", type);
-            HUAN_CORE_ASSERT(false, "ERROR info: {}\n\n -- --------------------------------------------------- -- ",
-                             infoLog);
+            HUAN_CORE_ERROR("ERROR::SHADER_COMPILATION_ERROR of type: {}\nERROR info: {}\n\n --          --------------------------------------------------- -- ",
+                            type, infoLog);
+            HUAN_CORE_ASSERT(false, "");
         }
     }
     else
@@ -191,9 +190,10 @@ void OpenGLShader::checkCompileErrors(GLuint shader, GLenum type)
         if (!success)
         {
             glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-            HUAN_CORE_ERROR("ERROR::PROGRAM_LINKING_ERROR of type: {}\n", type);
-            HUAN_CORE_ASSERT(false, "ERROR info: {}\n\n -- --------------------------------------------------- -- ",
-                             infoLog);
+            HUAN_CORE_ERROR("ERROR::PROGRAM_LINKING_ERROR of type: {}\nERROR info: {}\n\n -- "
+                            "--------------------------------------------------- -- ",
+                            type, infoLog);
+            HUAN_CORE_ASSERT(false, "");
         }
     }
 }

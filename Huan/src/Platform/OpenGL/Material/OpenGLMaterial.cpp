@@ -9,6 +9,7 @@ OpenGLMaterial::OpenGLMaterial(const std::string& name) : myName(name)
 void OpenGLMaterial::bind() const
 {
     int slot = 0;
+    myShader->bind();
     for (auto& [key, value] : myTextures)
     {
         value->bind(slot);
@@ -16,7 +17,6 @@ void OpenGLMaterial::bind() const
         myShader->uploadUniformInt(uniformName, slot);
         ++slot;
     }
-    myShader->bind();
 }
 void OpenGLMaterial::unbind() const
 {

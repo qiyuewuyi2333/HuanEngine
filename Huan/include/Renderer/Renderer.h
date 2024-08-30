@@ -16,6 +16,19 @@ enum RendererAPIName
     OpenGL,
     Vulkan
 };
+
+struct BatchRenderData
+{
+    static const unsigned int maxInstanceNum = 10000;
+    static const unsigned int maxVertexNum = 10000 * 8;
+    static const unsigned int maxIndexNum = 10000 * 6 * 6;
+
+    Ref<VertexArray> vertexArray;
+    Ref<VertexBuffer> vertexBuffer;
+    
+    std::vector<float> vertexBufferData;
+    std::vector<unsigned int> indices;
+};
 struct Renderer3DData
 {
     // option
@@ -25,9 +38,16 @@ struct Renderer3DData
     Ref<OrthogonalCamera> myOrthogonalCamera;
     Ref<Shader> cuboidVertShader;
     Ref<Shader> metalFragShader;
-    Ref<VertexArray> myCuboidVertexArray;
     Ref<Material> myBaseMaterial;
     Ref<Material> myMetalMaterial;
+
+    float tilingFactor = 1.0f;
+
+    // Batch Rendering
+    Ref<BatchRenderData> myBatchRenderData;
+    unsigned int instanceCount = 0;
+    unsigned int vertexCount = 0;
+    unsigned int indexCount = 0;
 
     const glm::mat4& getCameraMatrix()
     {
@@ -58,6 +78,8 @@ class HUAN_API Renderer
     void renderScene();
     void endScene();
     void setScene(Ref<Scene> scene);
+
+    void flush() const;
     // primitives
     void drawCuboid(const CuboidProperty& cuboidProperty);
     // get
@@ -72,5 +94,6 @@ class HUAN_API Renderer
     // You might have many renderer to render one same scene
     Ref<Scene> myScene;
     Renderer3DData* myData;
+    std::array<float, 36*12> cuboidVertices;
 };
 } // namespace Huan

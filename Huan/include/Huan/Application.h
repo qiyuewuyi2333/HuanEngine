@@ -31,12 +31,13 @@ class HUAN_API Application
 
     Window& getWindow();
     ImGuiLayer* imGuiLayer;
-    static ImGuiContext* imGuiContext;
 
     static Application* getInstance();
     static ImGuiContext* getImGuiContext();
     static bool setImGuiContext(ImGuiContext* context);
-    static Application* instance;
+    
+    static inline ImGuiContext* imGuiContext = nullptr;
+    static inline Application* instance = nullptr;
 
   private:
     Scope<Window> myWindow;

@@ -90,8 +90,6 @@ std::unordered_map<int, std::string> createKeycodeMap()
     keycodeMap[HUAN_KEY_Z] = "HUAN_KEY_Z";
     return keycodeMap;
 }
-Application* Application::instance = nullptr;
-ImGuiContext* Application::imGuiContext = nullptr;
 
 Application::Application() : myLayerStack()
 {

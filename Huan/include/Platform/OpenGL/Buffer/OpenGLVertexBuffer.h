@@ -6,6 +6,7 @@ namespace Huan
 class HUAN_API OpenGLVertexBuffer : public VertexBuffer
 {
   public:
+    OpenGLVertexBuffer(uint32_t size);
     OpenGLVertexBuffer(float* vertices, uint32_t size);
     // OpenGLVertexBuffer(uint32_t size);
     ~OpenGLVertexBuffer();

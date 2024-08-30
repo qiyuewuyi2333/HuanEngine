@@ -3,6 +3,15 @@
 
 namespace Huan
 {
+
+OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size)
+{
+    HUAN_PROFILE_FUNCTION();
+    myCount = size / sizeof(float);
+    glCreateBuffers(1, &myRendererID);
+    glNamedBufferData(myRendererID, size, nullptr, GL_DYNAMIC_DRAW);
+    HUAN_CORE_TRACE("OpenGL VertexBuffer created, ID: {0}", myRendererID);
+}
 /**
  * @brief Construct a new OpenGL Vertex Buffer object, and upload data to GPU. Not with Bind.
  *
@@ -35,7 +44,7 @@ void OpenGLVertexBuffer::bind() const
 {
     HUAN_PROFILE_FUNCTION();
     glBindBuffer(GL_ARRAY_BUFFER, myRendererID);
-    HUAN_CORE_TRACE("OpenGL VertexBuffer binded, ID: {0}", myRendererID);
+    // HUAN_CORE_TRACE("OpenGL VertexBuffer binded, ID: {0}", myRendererID);
 }
 /**
  * @brief Set the data of OpenGL Array Buffer with cur ID
@@ -47,7 +56,7 @@ void OpenGLVertexBuffer::setData(const void* data, uint32_t size)
 {
     HUAN_PROFILE_FUNCTION();
     glNamedBufferSubData(myRendererID, 0, size, data);
-    HUAN_CORE_TRACE("OpenGL VertexBuffer set data, ID: {0}", myRendererID);
+    // HUAN_CORE_TRACE("OpenGL VertexBuffer set data, ID: {0}", myRendererID);
 }
 /**
  * @brief Set the layout of OpenGL Array Buffer
