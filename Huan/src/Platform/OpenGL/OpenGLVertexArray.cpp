@@ -81,11 +81,13 @@ void OpenGLVertexArray::addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
         glVertexAttribPointer(myVertexBufferIndex, element.getComponentCount(), shaderTypeToGLType(element.type),
                               element.shouldNormalized ? GL_TRUE : GL_FALSE, layout.getStride(),
                               (const void*)element.offset);
+        // glVertexAttribDivisor(myVertexBufferIndex, 1);
         myVertexBufferIndex++;
     }
     myVertexBuffers.push_back(vertexBuffer);
     HUAN_CORE_TRACE("OpenGL VertexArray {0} add VertexBuffer, ID: {1}", myRendererID, vertexBuffer->getMyRendererID());
 }
+
 void OpenGLVertexArray::setIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
 {
     HUAN_PROFILE_FUNCTION();

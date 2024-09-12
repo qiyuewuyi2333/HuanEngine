@@ -20,16 +20,20 @@ enum RendererAPIName
 struct BatchRenderData
 {
     static const unsigned int maxInstanceNum = 10000;
-    static const unsigned int maxVertexNum = 10000 * 8;
+    static const unsigned int maxVertexNum = 10000 * 6 * 6;
     static const unsigned int maxIndexNum = 10000 * 6 * 6;
 
     Ref<VertexArray> vertexArray;
     Ref<VertexBuffer> vertexBuffer;
-    
+
     std::vector<float> vertexBufferData;
     std::vector<unsigned int> indices;
+
+    unsigned int instanceCount = 0;
+    unsigned int vertexCount = 0;
+    unsigned int indexCount = 0;
 };
-struct Renderer3DData
+struct RendererProperty
 {
     // option
     bool myIsUsingMyPerspectiveCamera = true;
@@ -44,10 +48,10 @@ struct Renderer3DData
     float tilingFactor = 1.0f;
 
     // Batch Rendering
+    Ref<BatchRenderData> myBatchInstanceData;
+
+    // TODO: myBatchRenderData modify to myBatchNormalData
     Ref<BatchRenderData> myBatchRenderData;
-    unsigned int instanceCount = 0;
-    unsigned int vertexCount = 0;
-    unsigned int indexCount = 0;
 
     const glm::mat4& getCameraMatrix()
     {
@@ -79,9 +83,11 @@ class HUAN_API Renderer
     void endScene();
     void setScene(Ref<Scene> scene);
 
-    void flush() const;
+    void flushNormal() const;
+    void flushInstanced() const;
     // primitives
     void drawCuboid(const CuboidProperty& cuboidProperty);
+    void drawCuboidInstanced(const std::vector<CuboidProperty>& cuboidProperty);
     // get
     const Scope<RenderCommand>& getRenderCommand() const;
 
@@ -93,7 +99,7 @@ class HUAN_API Renderer
     Scope<RenderCommand> myRenderCommand;
     // You might have many renderer to render one same scene
     Ref<Scene> myScene;
-    Renderer3DData* myData;
-    std::array<float, 36*12> cuboidVertices;
+    RendererProperty* myData;
+    std::array<float, 36 * 12> cuboidVertices;
 };
 } // namespace Huan

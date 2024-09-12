@@ -35,6 +35,12 @@ void OpenGLRendererAPI::drawIndexed(const VertexArray& vertexArray)
     glDrawElements(GL_TRIANGLES, vertexArray.getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
+void OpenGLRendererAPI::drawInstanced(const VertexArray& vertexArray, unsigned int instanceCount)
+{
+    HUAN_PROFILE_FUNCTION();
+    glDrawArraysInstanced(GL_TRIANGLES, 0, 36,
+                            instanceCount);
+}
 
 void OpenGLRendererAPI::enableBlend()
 {

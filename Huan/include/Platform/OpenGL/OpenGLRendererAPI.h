@@ -13,6 +13,7 @@ class OpenGLRendererAPI : public RendererAPI
     virtual void clear() override;
     virtual void draw(const VertexArray& vertexArray) override;
     virtual void drawIndexed(const VertexArray& vertexArray) override;
+    virtual void drawInstanced(const VertexArray& vertexArray, unsigned int instanceCount) override;
     virtual void enableBlend() override;
     virtual void enableDepthTest() override;
     virtual void setCursorMode(uint32_t mode) override;

@@ -1,10 +1,5 @@
 #pragma once
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <thread>
-#include <chrono>
-#include <algorithm>
+#include "Huan/Core.h"
 
 namespace Huan
 {
@@ -20,7 +15,7 @@ struct InstrumentationSession
     std::string name;
 };
 
-class Instrumentor
+class HUAN_API Instrumentor
 {
   private:
     InstrumentationSession* myCurrentSession;
@@ -28,100 +23,36 @@ class Instrumentor
     int myProfileCount;
 
   public:
-    Instrumentor() : myCurrentSession(nullptr), myProfileCount(0)
-    {
-    }
+    Instrumentor();
 
-    void beginSession(const std::string& name, const std::string& filepath = "results.json")
-    {
-        myOutputStream.open(filepath);
-        writeHeader();
-        myCurrentSession = new InstrumentationSession{name};
-    }
+    void beginSession(const std::string& name, const std::string& filepath = "results.json");
 
-    void endSession()
-    {
-        writeFooter();
-        myOutputStream.close();
-        delete myCurrentSession;
-        myCurrentSession = nullptr;
-        myProfileCount = 0;
-    }
+    void endSession();
 
-    void writeProfile(const ProfileResult& result)
-    {
-        if (myProfileCount++ > 0)
-            myOutputStream << ",";
+    void writeProfile(const ProfileResult& result);
 
-        std::string name = result.Name;
-        std::replace(name.begin(), name.end(), '"', '\'');
+    void writeHeader();
 
-        myOutputStream << "{";
-        myOutputStream << "\"cat\":\"function\",";
-        myOutputStream << "\"dur\":" << (result.End - result.Start) << ',';
-        myOutputStream << "\"name\":\"" << name << "\",";
-        myOutputStream << "\"ph\":\"X\",";
-        myOutputStream << "\"pid\":0,";
-        myOutputStream << "\"tid\":" << result.ThreadID << ",";
-        myOutputStream << "\"ts\":" << result.Start;
-        myOutputStream << "}";
+    void writeFooter();
 
-        myOutputStream.flush();
-    }
-
-    void writeHeader()
-    {
-        myOutputStream << "{\"otherData\": {},\"traceEvents\":[";
-        myOutputStream.flush();
-    }
-
-    void writeFooter()
-    {
-        myOutputStream << "]}";
-        myOutputStream.flush();
-    }
-
-    static Instrumentor& get()
-    {
-        static Instrumentor instance;
-        return instance;
-    }
+    static Instrumentor& get();
 };
 
-class InstrumentationTimer
+class HUAN_API InstrumentationTimer
 {
   public:
-    InstrumentationTimer(const char* name) : myName(name), myStopped(false)
-    {
-        myStartTimepoint = std::chrono::high_resolution_clock::now();
-    }
+    InstrumentationTimer(const char* name);
 
-    ~InstrumentationTimer()
-    {
-        if (!myStopped)
-            Stop();
-    }
+    ~InstrumentationTimer();
 
-    void Stop()
-    {
-        auto endTimepoint = std::chrono::high_resolution_clock::now();
-
-        long long start =
-            std::chrono::time_point_cast<std::chrono::microseconds>(myStartTimepoint).time_since_epoch().count();
-        long long end =
-            std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
-
-        uint32_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
-        Instrumentor::get().writeProfile({myName, start, end, threadID});
-
-        myStopped = true;
-    }
+    void Stop();
 
   private:
     const char* myName;
     std::chrono::time_point<std::chrono::high_resolution_clock> myStartTimepoint;
     bool myStopped;
 };
+
 } // namespace Huan
 
 #define HUAN_PROFILE 1

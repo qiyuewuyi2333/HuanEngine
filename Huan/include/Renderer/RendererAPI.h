@@ -12,6 +12,7 @@ class RendererAPI
     virtual void clear() = 0;
     virtual void draw(const VertexArray& vertexArray) = 0;
     virtual void drawIndexed(const VertexArray& vertexArray) = 0;
+    virtual void drawInstanced(const VertexArray& vertexArray, unsigned int instanceCount) = 0;
     virtual void enableBlend() = 0;
     virtual void enableDepthTest() = 0;
     virtual void setCursorMode(uint32_t mode) = 0;

@@ -12,6 +12,7 @@ class HUAN_API RenderCommand
     void clear();
     void draw(const VertexArray& vertexArray);
     void drawIndexed(const VertexArray& vertexArray);
+    void drawInstanced(const VertexArray& vertexArray, unsigned int instanceCount);
     void setRendererAPIInstance(RendererAPI* api);
     void enableDepthTest();
     void enableBlend();

@@ -32,6 +32,11 @@ void RenderCommand::drawIndexed(const VertexArray& vertexArray)
 {
     myRendererAPI->drawIndexed(vertexArray);
 }
+void RenderCommand::drawInstanced(const VertexArray& vertexArray, unsigned int instanceCount)
+{
+    myRendererAPI->drawInstanced(vertexArray, instanceCount);
+}
+
 void RenderCommand::enableBlend()
 {
     myRendererAPI->enableBlend();

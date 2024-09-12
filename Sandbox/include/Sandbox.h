@@ -33,7 +33,9 @@ public:
     Huan::Ref<Huan::Texture> myCheckboardTexture;
     Huan::Ref<Huan::Texture> myLogoTexture;
     Huan::Ref<Huan::Texture> myMetalTexture;
+    int cuboidNum = 10;
 
-    Huan::CuboidProperty myLogoCuboidProperty;
-
+    Huan::CuboidProperty myCuboidProperty;
+    std::vector<Huan::CuboidProperty> myCuboidProperties;
+    std::vector<glm::vec2> instancePositions;
 };

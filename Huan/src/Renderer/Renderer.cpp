@@ -1,3 +1,4 @@
+
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderCommand.h"
 #include "Renderer/RendererConfig.h"
@@ -66,8 +67,8 @@ void Renderer::loadSingleShader()
 
 void Renderer::init()
 {
-    HUAN_PROFILE_FUNCTION();
-    myData = new Renderer3DData();
+    HUAN_PROFILE_SCOPE("test");
+    myData = new RendererProperty();
     // You don't need to create camera here, just move the power to
     // app layer, and load from it
 
@@ -79,47 +80,47 @@ void Renderer::init()
     cuboidVertices = 
     {
         // positions          // normals           // texture coords   // color
-        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f,
-         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-
-        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-
-        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f,
-        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f,
-        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f,
-        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-
-         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f,
-         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f,
-         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f,
-         0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-
-        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f,
-
-        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f,
-         0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,1.0f,1.0f,1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,1.0f,1.0f,1.0f};
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+  
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+  
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f,
+        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+  
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f,
+         0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+  
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f,
+  
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,  1.0f,1.0f,1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,  1.0f,1.0f,1.0f};
 
     // clang-format on
     myData->myBatchRenderData = std::make_shared<BatchRenderData>();
@@ -134,6 +135,19 @@ void Renderer::init()
                                                         {ShaderDataType::Float2, "in_TexCoord"},
                                                         {ShaderDataType::Float4, "in_Color"}});
     myData->myBatchRenderData->vertexArray->addVertexBuffer(myData->myBatchRenderData->vertexBuffer);
+
+    myData->myBatchInstanceData = std::make_shared<BatchRenderData>();
+    myData->myBatchInstanceData->vertexArray = std::make_shared<CurrentVertexArray>();
+    myData->myBatchInstanceData->vertexArray->bind();
+    myData->myBatchInstanceData->vertexBuffer =
+        std::make_shared<CurrentVertexBuffer>(BatchRenderData::maxVertexNum * sizeof(float) * 12);
+    myData->myBatchInstanceData->vertexBuffer->bind();
+    myData->myBatchInstanceData->vertexBuffer->setLayout({{ShaderDataType::Float3, "in_Position"},
+                                                          {ShaderDataType::Float3, "in_Normal"},
+                                                          {ShaderDataType::Float2, "in_TexCoord"},
+                                                          {ShaderDataType::Float4, "in_Color"}});
+    myData->myBatchInstanceData->vertexArray->addVertexBuffer(myData->myBatchInstanceData->vertexBuffer);
+
 };
 void Renderer::shutdown()
 {
@@ -161,7 +175,9 @@ void Renderer::renderScene()
 }
 void Renderer::endScene()
 {
-    flush();
+    flushInstanced();
+    flushNormal();
+
 }
 void Renderer::setScene(Ref<Scene> scene)
 {
@@ -170,8 +186,8 @@ void Renderer::setScene(Ref<Scene> scene)
 void Renderer::drawCuboid(const CuboidProperty& property)
 {
     HUAN_PROFILE_FUNCTION();
-    if (myData->instanceCount >= BatchRenderData::maxInstanceNum)
-        flush();
+    if (myData->myBatchRenderData->instanceCount >= BatchRenderData::maxInstanceNum)
+        flushNormal();
 
     glm::mat4 transform = glm::translate(glm::mat4(1.0f), property.position) *
                           glm::rotate(glm::mat4(1.0f), glm::radians(property.rotation.z), {0.0f, 0.0f, 1.0f}) *
@@ -186,7 +202,7 @@ void Renderer::drawCuboid(const CuboidProperty& property)
                                                    cuboidVertices[i * stride + 2], 1.0f);
 
         // Pos
-        myData->myBatchRenderData->vertexBufferData.push_back(position.x); 
+        myData->myBatchRenderData->vertexBufferData.push_back(position.x);
         myData->myBatchRenderData->vertexBufferData.push_back(position.y);
         myData->myBatchRenderData->vertexBufferData.push_back(position.z);
         // Normal
@@ -194,7 +210,7 @@ void Renderer::drawCuboid(const CuboidProperty& property)
         myData->myBatchRenderData->vertexBufferData.push_back(cuboidVertices[i * stride + 4]);
         myData->myBatchRenderData->vertexBufferData.push_back(cuboidVertices[i * stride + 5]);
         // TexC
-        myData->myBatchRenderData->vertexBufferData.push_back(cuboidVertices[i * stride + 6]); 
+        myData->myBatchRenderData->vertexBufferData.push_back(cuboidVertices[i * stride + 6]);
         myData->myBatchRenderData->vertexBufferData.push_back(cuboidVertices[i * stride + 7]);
 
         // Color
@@ -203,19 +219,67 @@ void Renderer::drawCuboid(const CuboidProperty& property)
         myData->myBatchRenderData->vertexBufferData.push_back(cuboidVertices[i * stride + 10]);
         myData->myBatchRenderData->vertexBufferData.push_back(cuboidVertices[i * stride + 11]);
     }
-    myData->vertexCount += 36;
+    myData->myBatchRenderData->vertexCount += 36;
 
     if (property.texture)
     {
         myData->myBaseMaterial->setTexture("Cuboid Texture", property.texture);
     }
 }
+void Renderer::drawCuboidInstanced(const std::vector<CuboidProperty>& properties)
+{
+    HUAN_PROFILE_FUNCTION();
+    if (myData->myBatchInstanceData->instanceCount + properties.size() > BatchRenderData::maxInstanceNum)
+    {
+        HUAN_CORE_INFO("Instance Batch render buffer overflow, fail to add! ");
+        return;
+    }
+    myData->myBatchInstanceData->instanceCount += properties.size();
+    myData->myBatchInstanceData->vertexCount += 36 * properties.size();
+    for (auto& property : properties)
+    {
 
-void Renderer::flush() const
+        glm::mat4 transform = glm::translate(glm::mat4(1.0f), property.position) *
+                              glm::rotate(glm::mat4(1.0f), glm::radians(property.rotation.z), {0.0f, 0.0f, 1.0f}) *
+                              glm::rotate(glm::mat4(1.0f), glm::radians(property.rotation.y), {0.0f, 1.0f, 0.0f}) *
+                              glm::rotate(glm::mat4(1.0f), glm::radians(property.rotation.x), {1.0f, 0.0f, 0.0f}) *
+                              glm::scale(glm::mat4(1.0f), {property.size.x, property.size.y, property.size.z});
+
+        unsigned int stride = 12;
+        for (int i = 0; i < 36; ++i)
+        {
+            glm::vec4 position = transform * glm::vec4(cuboidVertices[i * stride + 0], cuboidVertices[i * stride + 1],
+                                                       cuboidVertices[i * stride + 2], 1.0f);
+
+            // Pos
+            myData->myBatchInstanceData->vertexBufferData.push_back(position.x);
+            myData->myBatchInstanceData->vertexBufferData.push_back(position.y);
+            myData->myBatchInstanceData->vertexBufferData.push_back(position.z);
+            // Normal
+            myData->myBatchInstanceData->vertexBufferData.push_back(cuboidVertices[i * stride + 3]);
+            myData->myBatchInstanceData->vertexBufferData.push_back(cuboidVertices[i * stride + 4]);
+            myData->myBatchInstanceData->vertexBufferData.push_back(cuboidVertices[i * stride + 5]);
+            // TexC
+            myData->myBatchInstanceData->vertexBufferData.push_back(cuboidVertices[i * stride + 6]);
+            myData->myBatchInstanceData->vertexBufferData.push_back(cuboidVertices[i * stride + 7]);
+
+            // Color
+            myData->myBatchInstanceData->vertexBufferData.push_back(cuboidVertices[i * stride + 8]);
+            myData->myBatchInstanceData->vertexBufferData.push_back(cuboidVertices[i * stride + 9]);
+            myData->myBatchInstanceData->vertexBufferData.push_back(cuboidVertices[i * stride + 10]);
+            myData->myBatchInstanceData->vertexBufferData.push_back(cuboidVertices[i * stride + 11]);
+        }
+        if (property.texture)
+        {
+            myData->myBaseMaterial->setTexture("Cuboid Texture", property.texture);
+        }
+    }
+}
+void Renderer::flushNormal() const
 {
     HUAN_PROFILE_FUNCTION();
     // no Instance in the batch
-    if (myData->vertexCount == 0)
+    if (myData->myBatchRenderData->vertexCount == 0)
         return;
     // upload data
     myData->myBatchRenderData->vertexArray->bind();
@@ -233,9 +297,36 @@ void Renderer::flush() const
     myRenderCommand->draw(*myData->myBatchRenderData->vertexArray);
 
     myData->myBatchRenderData->vertexBufferData.clear();
-    myData->instanceCount = 0;
-    myData->vertexCount = 0;
-    myData->indexCount = 0;
+    myData->myBatchRenderData->instanceCount = 0;
+    myData->myBatchRenderData->vertexCount = 0;
+    myData->myBatchRenderData->indexCount = 0;
+}
+
+void Renderer::flushInstanced() const
+{
+    HUAN_PROFILE_FUNCTION();
+    // no Instance in the batch
+    if (myData->myBatchInstanceData->instanceCount == 0)
+        return;
+    // upload data
+    myData->myBatchInstanceData->vertexArray->bind();
+    myData->myBatchInstanceData->vertexBuffer->bind();
+
+    myData->myBatchInstanceData->vertexBuffer->setData(myData->myBatchInstanceData->vertexBufferData.data(),
+                                                       myData->myBatchInstanceData->vertexBufferData.size() *
+                                                           sizeof(float));
+    myData->myBatchInstanceData->vertexArray->bind();
+
+    // bind material
+    myData->myBaseMaterial->bind();
+    myData->myBaseMaterial->uploadUniformMat4("u_ProjectionView", myData->getCameraMatrix());
+    myData->myBaseMaterial->uploadUniformFloat("u_TilingFactor", myData->tilingFactor);
+
+    myData->myBatchInstanceData->vertexArray->bind();
+    
+    // Draw instanced
+    myRenderCommand->draw(*myData->myBatchInstanceData->vertexArray);
+
 }
 const Scope<RenderCommand>& Renderer::getRenderCommand() const
 {
